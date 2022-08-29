@@ -1,13 +1,13 @@
 terraform {
-  required_version = "~> <terraform latest version eg: 1.1.0>"
+  required_version = "~> 1.2.0"
 
   # TODO Uncomment once the backend S3 bucket is created and upload the state tate file.
-  #backend "s3" {}
+  backend "s3" {}
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> <terraform aws plugin version eg: 4.0.0>"
+      version = "~> 4.0.0"
     }
   }
 }
