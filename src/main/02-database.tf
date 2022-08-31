@@ -15,16 +15,19 @@ resource "aws_rds_cluster_parameter_group" "postgresql14" {
   description = "Aurora cluster parameters group."
 }
 
-
 module "aurora_postgresql" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "7.3.0"
 
-  name              = format("%s-postgresql", local.project)
-  engine            = data.aws_rds_engine_version.postgresql.engine
-  engine_mode       = "provisioned"
-  engine_version    = data.aws_rds_engine_version.postgresql.version
-  storage_encrypted = true
+  name                   = format("%s-postgresql", local.project)
+  engine                 = data.aws_rds_engine_version.postgresql.engine
+  engine_mode            = "provisioned"
+  engine_version         = data.aws_rds_engine_version.postgresql.version
+  storage_encrypted      = true
+  master_username        = "cmsuser"
+  database_name          = "cms"
+  create_random_password = true
+  random_password_length = 16
 
   vpc_id                = module.vpc.vpc_id
   subnets               = module.vpc.database_subnets

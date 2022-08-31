@@ -28,12 +28,6 @@ variable "vpc_cidr" {
   description = "VPC cidr."
 }
 
-variable "azs" {
-  type        = list(string)
-  description = "Availability zones"
-  default     = ["eu-south-1a", "eu-south-1b", "eu-south-1c"]
-}
-
 variable "vpc_private_subnets_cidr" {
   type        = list(string)
   description = "Private subnets list of cidr."

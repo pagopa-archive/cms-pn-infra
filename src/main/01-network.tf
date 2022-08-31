@@ -1,9 +1,13 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 module "vpc" {
   source                = "terraform-aws-modules/vpc/aws"
   version               = "3.14.2"
   name                  = format("%s-vpc", local.project)
   cidr                  = var.vpc_cidr
-  azs                   = var.azs
+  azs                   = data.aws_availability_zones.available.names
   private_subnets       = var.vpc_private_subnets_cidr
   private_subnet_suffix = "private"
   public_subnets        = var.vpc_public_subnets_cidr
