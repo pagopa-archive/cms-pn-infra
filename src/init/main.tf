@@ -1,7 +1,6 @@
 terraform {
   required_version = "~> 1.2.0"
 
-  # TODO Uncomment once the backend S3 bucket is created and upload the state tate file.
   backend "s3" {}
 
   required_providers {
