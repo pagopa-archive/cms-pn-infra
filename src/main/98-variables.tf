@@ -65,6 +65,13 @@ variable "dns_record_ttl" {
   default     = 86400 # 24 hours
 }
 
+## ECS
+variable "logs_tasks_retention" {
+  type        = number
+  description = "Days to retain a log stream."
+  default     = 7
+}
+
 variable "tags" {
   type = map(any)
   default = {
