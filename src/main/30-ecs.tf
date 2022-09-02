@@ -1,15 +1,5 @@
 # Cluster
 
-locals {
-  ecs_cluster_name = format("%s-ecs-cluster", local.project)
-
-  logs = {
-    name = "/ecs/strapi"
-  }
-
-  ecs_task_name = format("%s-strapi-task", local.project)
-}
-
 resource "aws_ecr_repository" "main" {
   name                 = format("%s-strapi", local.project)
   image_tag_mutability = "MUTABLE"
@@ -64,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = aws_ecr_repository.main.repository_url
+      image = join(":", [aws_ecr_repository.main.repository_url, "latest"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -114,4 +104,15 @@ resource "aws_ecs_task_definition" "main" {
 
   lifecycle {
   }
+}
+
+## Service
+# https://medium.com/avmconsulting-blog/how-to-deploy-a-dockerised-node-js-application-on-aws-ecs-with-terraform-3e6bceb48785
+resource "aws_ecs_service" "main" {
+  name            = format("%s-strapi-srv", local.project)
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.main.arn
+  launch_type     = "FARGATE"
+  desired_count   = 2
+
 }
