@@ -72,6 +72,12 @@ variable "logs_tasks_retention" {
   default     = 7
 }
 
+variable "ecs_enable_execute_command" {
+  type        = bool
+  description = "Enable to execute command inside ECS container for debugging."
+  default     = false
+}
+
 variable "tags" {
   type = map(any)
   default = {
