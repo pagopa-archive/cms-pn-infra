@@ -25,28 +25,28 @@ data "aws_iam_policy_document" "task_execution" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type = "Service"
-      identifiers = [
-        "ecs-tasks.amazonaws.com",
-      ]
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
     }
   }
 }
 
 resource "aws_iam_role" "task_execution" {
-  name               = format("%s-task-execution-role", local.ecs_task_name)
+  name               = "ecsTaskExecutionRole"
   description        = format("Execution role of %s task", local.ecs_task_name)
   assume_role_policy = data.aws_iam_policy_document.task_execution.json
+  tags               = { Name = format("%s-execution-task-role", local.project) }
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution" {
   role       = aws_iam_role.task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 resource "aws_ecs_task_definition" "main" {
   family                   = local.ecs_task_name
   execution_role_arn       = aws_iam_role.task_execution.arn
+  task_role_arn            = aws_iam_role.task_execution.arn
   cpu                      = 256
   memory                   = 512
   network_mode             = "awsvpc"
@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "latest"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "3.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -88,7 +88,7 @@ resource "aws_ecs_task_definition" "main" {
       essential = true
       portMappings = [
         {
-          containerPort = 1337
+          containerPort = local.strapi_container_port
         }
       ]
       logConfiguration = {
@@ -106,13 +106,47 @@ resource "aws_ecs_task_definition" "main" {
   }
 }
 
+resource "aws_security_group" "service" {
+
+  name = "ECS Service Security group."
+
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    # Only allowing traffic in from the load balancer security group
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  egress {
+    from_port   = 0             # Allowing any incoming port
+    to_port     = 0             # Allowing any outgoing port
+    protocol    = "-1"          # Allowing any outgoing protocol 
+    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic out to all IP addresses
+  }
+}
+
 ## Service
-# https://medium.com/avmconsulting-blog/how-to-deploy-a-dockerised-node-js-application-on-aws-ecs-with-terraform-3e6bceb48785
 resource "aws_ecs_service" "main" {
-  name            = format("%s-strapi-srv", local.project)
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.main.arn
-  launch_type     = "FARGATE"
-  desired_count   = 2
+  name                   = format("%s-strapi-srv", local.project)
+  cluster                = aws_ecs_cluster.main.id
+  task_definition        = aws_ecs_task_definition.main.arn
+  launch_type            = "FARGATE"
+  desired_count          = 1
+  enable_execute_command = var.ecs_enable_execute_command
+
+  load_balancer {
+    target_group_arn = module.alb.target_group_arns[0]
+    container_name   = aws_ecs_task_definition.main.family
+    container_port   = local.strapi_container_port
+  }
+
+  network_configuration {
+    subnets          = module.vpc.public_subnets
+    assign_public_ip = true
+    security_groups  = [aws_security_group.service.id]
+  }
 
 }

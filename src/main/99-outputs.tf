@@ -27,3 +27,9 @@ output "db_cluster_master_password" {
   value     = module.aurora_postgresql.cluster_master_password
   sensitive = true
 }
+
+
+## Alb
+output "alb_dns_name" {
+  value = module.alb.lb_dns_name
+}
