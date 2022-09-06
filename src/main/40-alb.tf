@@ -22,7 +22,6 @@ resource "aws_security_group" "alb" {
 
 
 module "alb" {
-  count  = 0
   source = "terraform-aws-modules/alb/aws"
 
   name = format("%s-alb", local.project)
@@ -58,7 +57,6 @@ module "alb" {
       deregistration_delay = 30
       vpc_id               = module.vpc.vpc_id
 
-      /*
       health_check = {
         enabled = true
 
@@ -69,7 +67,6 @@ module "alb" {
         matcher             = "200-399"
         path                = "/"
       }
-      */
     },
   ]
 

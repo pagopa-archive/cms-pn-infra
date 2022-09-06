@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "2.0"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "3.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -129,7 +129,6 @@ resource "aws_security_group" "service" {
 }
 
 ## Service
-# https://medium.com/avmconsulting-blog/how-to-deploy-a-dockerised-node-js-application-on-aws-ecs-with-terraform-3e6bceb48785
 resource "aws_ecs_service" "main" {
   name                   = format("%s-strapi-srv", local.project)
   cluster                = aws_ecs_cluster.main.id
@@ -138,13 +137,11 @@ resource "aws_ecs_service" "main" {
   desired_count          = 1
   enable_execute_command = var.ecs_enable_execute_command
 
-  /*
   load_balancer {
     target_group_arn = module.alb.target_group_arns[0]
     container_name   = aws_ecs_task_definition.main.family
     container_port   = local.strapi_container_port
   }
-  */
 
   network_configuration {
     subnets          = module.vpc.public_subnets
