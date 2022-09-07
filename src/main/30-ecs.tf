@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "3.0"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "5.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -65,8 +65,9 @@ resource "aws_ecs_task_definition" "main" {
           value = module.aurora_postgresql.cluster_endpoint
         },
         {
-          name  = "DATABASE_PORT"
-          value = "module.aurora_postgresql.cluster_port"
+          name = "DATABASE_PORT"
+          #value = "${module.aurora_postgresql.cluster_port}"
+          value = "5432"
         },
         {
           name  = "DATABASE_NAME"
@@ -146,8 +147,8 @@ resource "aws_ecs_service" "main" {
   }
 
   network_configuration {
-    subnets          = module.vpc.public_subnets
-    assign_public_ip = true
+    subnets          = module.vpc.private_subnets
+    assign_public_ip = false
     security_groups  = [aws_security_group.service.id]
   }
 
