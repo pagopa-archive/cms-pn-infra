@@ -28,7 +28,6 @@ module "aurora_postgresql" {
   database_name          = "cms"
   create_random_password = true
   random_password_length = 16
-  enable_http_endpoint   = var.aurora_enable_http_endpoint
 
   vpc_id                = module.vpc.vpc_id
   subnets               = module.vpc.database_subnets
