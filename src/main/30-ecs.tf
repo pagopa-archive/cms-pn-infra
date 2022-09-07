@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "3.0"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "4.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -66,7 +66,7 @@ resource "aws_ecs_task_definition" "main" {
         },
         {
           name  = "DATABASE_PORT"
-          value = "module.aurora_postgresql.cluster_port"
+          value = module.aurora_postgresql.cluster_port
         },
         {
           name  = "DATABASE_NAME"
