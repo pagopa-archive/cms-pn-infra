@@ -1,4 +1,4 @@
-FROM strapi/strapi
+FROM node:14
 
 # Our working directory
 
@@ -8,15 +8,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copy the required files
-COPY app/package.json .
-COPY app/yarn.lock .
-COPY app/favicon.ico .
-COPY app/api/ api/
-# COPY app/components/ components/
-COPY app/config/ config/
-COPY app/extensions/ extensions/
-# COPY app/plugins/ plugins/
-COPY app/public/robots.txt public/
+COPY app .
 
 # Install dependencies and run build
 RUN yarn --production --frozen-lockfile
