@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "5.0"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "9.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -84,6 +84,22 @@ resource "aws_ecs_task_definition" "main" {
         {
           name  = "DATABASE_SSL"
           value = "false"
+        },
+        {
+          name  = "AWS_ACCESS_KEY_ID"
+          value = aws_iam_access_key.strapi.id
+        },
+        {
+          name  = "AWS_ACCESS_SECRET"
+          value = aws_iam_access_key.strapi.secret
+        },
+        {
+          name  = "AWS_BUCKET_NAME"
+          value = aws_s3_bucket.images.id
+        },
+        {
+          name  = "AWS_REGION"
+          value = var.aws_region
         }
       ],
       "cpu" : 256,
