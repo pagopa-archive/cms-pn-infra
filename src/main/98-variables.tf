@@ -78,13 +78,6 @@ variable "ecs_enable_execute_command" {
   default     = false
 }
 
-## Auorara
-variable "aurora_enable_http_endpoint" {
-  type        = bool
-  description = "Enable HTTP endpoint (data API)."
-  default     = false
-}
-
 variable "tags" {
   type = map(any)
   default = {
