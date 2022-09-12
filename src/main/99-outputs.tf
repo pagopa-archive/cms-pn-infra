@@ -53,3 +53,8 @@ output "image_s3_bucket" {
 output "image_s3_domain" {
   value = aws_s3_bucket.images.bucket_domain_name
 }
+
+## CDN
+output "cdn_domain_name" {
+  value = aws_cloudfront_distribution.images.domain_name
+}

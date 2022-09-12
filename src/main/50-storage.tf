@@ -2,6 +2,44 @@ resource "random_integer" "bucket_suffix" {
   min = 1
   max = 9999
 }
+
+/*
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = [format("%s/*", aws_s3_bucket.images.arn)]
+
+   principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+     condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.images.arn]
+    }
+  }
+}
+*/
+
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.images.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.main.iam_arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "cloudfront" {
+  bucket = aws_s3_bucket.images.id
+  policy = data.aws_iam_policy_document.s3_policy.json
+}
+
 resource "aws_s3_bucket" "images" {
   bucket = format("cms-images-%04s", random_integer.bucket_suffix.result)
 

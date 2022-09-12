@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, "9.0"])
+      image = join(":", [aws_ecr_repository.main.repository_url, "17.0"])
       environment = [
         {
           name  = "DATABASE_CLIENT"
@@ -100,6 +100,14 @@ resource "aws_ecs_task_definition" "main" {
         {
           name  = "AWS_REGION"
           value = var.aws_region
+        },
+        {
+          name  = "CDN_BASE_URL"
+          value = format("https://%s", aws_cloudfront_distribution.images.domain_name)
+        }, 
+        {
+          name = "BUCKET_PREFIX"
+          value = "cms-assets"
         }
       ],
       "cpu" : 256,
