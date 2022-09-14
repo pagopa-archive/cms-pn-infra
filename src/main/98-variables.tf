@@ -78,6 +78,12 @@ variable "ecs_enable_execute_command" {
   default     = false
 }
 
+
+variable "ecs_cms_image_version" {
+  type        = string
+  description = "Cms image to deploy"
+}
+
 variable "tags" {
   type = map(any)
   default = {

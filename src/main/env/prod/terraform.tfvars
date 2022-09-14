@@ -6,9 +6,7 @@ app_name = "cms"
 
 enable_nat_gateway         = true
 ecs_enable_execute_command = true
-
-## Aurora
-aurora_enable_http_endpoint = true
+ecs_cms_image_version      = "29.0"
 
 # Ref: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/132810155/Azure+-+Naming+Tagging+Convention#Tagging
 tags = {

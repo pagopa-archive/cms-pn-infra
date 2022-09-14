@@ -1,6 +1,5 @@
-module.exports = [
+module.exports = ({ env }) => [
   'strapi::errors',
-  'strapi::security',
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::logger',
@@ -10,26 +9,14 @@ module.exports = [
   'strapi::favicon',
   'strapi::public',
   {
-    name: 'strapi::security',
+    name: "strapi::security",
     config: {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'connect-src': ["'self'", 'https:'],
-          'img-src': [
-            "'self'",
-            'data:',
-            'blob:',
-            'dl.airtable.com',
-            'cms-images-1305.s3.yourRegion.amazonaws.com',
-          ],
-          'media-src': [
-            "'self'",
-            'data:',
-            'blob:',
-            'dl.airtable.com',
-            'cms-images-1305..s3.yourRegion.amazonaws.com',
-          ],
+          "connect-src": ["'self'", "https:"],
+          "img-src": ["'self'", "data:", "blob:", `${env("CDN_BASE_URL")}`],
+          "media-src": ["'self'", "data:", "blob:", `${env("CDN_BASE_URL")}`],
           upgradeInsecureRequests: null,
         },
       },

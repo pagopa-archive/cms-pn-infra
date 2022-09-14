@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14.20.0-alpine
 
 # Our working directory
 
