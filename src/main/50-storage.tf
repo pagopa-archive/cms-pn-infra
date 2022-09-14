@@ -36,7 +36,6 @@ resource "aws_s3_bucket_versioning" "terraform_states" {
   }
 }
 
-/*
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
@@ -48,11 +47,8 @@ data "aws_iam_policy_document" "s3_policy" {
     }
   }
 }
-*/
 
-/*
 resource "aws_s3_bucket_policy" "cloudfront" {
   bucket = aws_s3_bucket.images.id
   policy = data.aws_iam_policy_document.s3_policy.json
 }
-*/
