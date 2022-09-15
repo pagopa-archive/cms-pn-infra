@@ -1,3 +1,8 @@
+resource "aws_vpc_endpoint" "cloudfront" {
+  vpc_id       = module.vpc.vpc_id
+  service_name = "com.amazonaws.global.cloudfront.origin-facing"
+}
+
 # Creating a security group for the load balancer:
 resource "aws_security_group" "alb" {
 
@@ -6,10 +11,11 @@ resource "aws_security_group" "alb" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
-    from_port   = 80 # Allowing traffic in from port 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
+    from_port = 80 # Allowing traffic in from port 80
+    to_port   = 80
+    protocol  = "tcp"
+    #cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
+    prefix_list_ids = [aws_vpc_endpoint.cloudfront.prefix_list_id]
   }
 
   egress {
