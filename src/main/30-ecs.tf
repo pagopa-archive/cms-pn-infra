@@ -43,6 +43,12 @@ resource "aws_iam_role_policy_attachment" "task_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+resource "random_string" "api_key" {
+  length           = 16
+  special          = true
+  override_special = "/@£$"
+}
+
 resource "aws_ecs_task_definition" "main" {
   family                   = local.ecs_task_name
   execution_role_arn       = aws_iam_role.task_execution.arn
@@ -108,6 +114,22 @@ resource "aws_ecs_task_definition" "main" {
         {
           name  = "BUCKET_PREFIX"
           value = "media"
+        },
+        {
+          name  = "CUSTOM_JWT_SECRET"
+          value = "bfdd1bec00b537be3ef0283fbf4e5cb810648f64cfa5bc0fbd09ed8a9d126ff032d0b860fa18b613e375646f4742911e3d9efcae6834d7afc3331d6f47e1c35f"
+        },
+        {
+          name  = "API_TOKEN_SALT"
+          value = "wewqeqwewqewq"
+        },
+        {
+          name  = "ADMIN_JWT_SECRET"
+          value = "wewqeqwewqewq"
+        },
+        {
+          name  = "NODE_ENV"
+          value = "developement"
         }
       ],
       "cpu" : 256,
