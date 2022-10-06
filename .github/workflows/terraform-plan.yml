@@ -3,7 +3,7 @@ name: "Terraform-Plan"
 on:
   push:
     branches:
-      - "*"
+      - '*'
     paths:
       - src/main
       - '.github/workflows/*.yml'
