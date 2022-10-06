@@ -3,10 +3,10 @@ name: "Terraform-Apply"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - src/main
-      - .github/*
+      - '.github/workflows/*.yml'
 
 defaults:
   run:
