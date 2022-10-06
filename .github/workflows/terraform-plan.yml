@@ -39,7 +39,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: $TERRAFORM_VERSION
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Terraform Format
         id: fmt
