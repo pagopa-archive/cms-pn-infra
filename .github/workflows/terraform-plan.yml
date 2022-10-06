@@ -6,7 +6,7 @@ on:
       - "*"
     paths:
       - src/main
-      - .github/*
+      - .github
 defaults:
   run:
     shell: bash
