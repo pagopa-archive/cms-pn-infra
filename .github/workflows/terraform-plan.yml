@@ -31,7 +31,7 @@ jobs:
           aws-region: eu-central-1
       
       - name: Read terraform version 
-        id: init 
+        id: read-version
         run: |
           echo "TERRAFORM_VERSION=`cat ../.terraform-version`" >> $GITHUB_ENV
 
