@@ -29,11 +29,16 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::794703684555:role/GitHubActionIACRole
           aws-region: eu-central-1
+      
+      - name: Read terraform version 
+        id: init 
+        run: |
+          echo "TERRAFORM_VERSION=`cat ../.terraform-version`" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.2.8
+          terraform_version: $TERRAFORM_VERSION
 
       - name: Terraform Format
         id: fmt
