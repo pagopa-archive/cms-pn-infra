@@ -20,6 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::794703684555:role/GitHubActionIACRole
+          aws-region: eu-central-1
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -31,17 +37,11 @@ jobs:
 
       - name: Terraform Init
         id: init
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           ./terraform.sh init prod
 
       - name: Terraform Plan
         id: plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           ./terraform.sh plan prod
         continue-on-error: true
