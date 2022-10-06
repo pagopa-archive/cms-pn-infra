@@ -7,6 +7,10 @@ on:
     paths:
       - src/main
       - '.github/workflows/*.yml'
+env:
+ AWS_REGION: eu-central-1
+ IAM_ROLE: arn:aws:iam::794703684555:role/GitHubActionIACRole
+
 
 defaults:
   run:
@@ -28,13 +32,19 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::794703684555:role/GitHubActionIACRole
-          aws-region: eu-central-1
+          role-to-assume: $IAM_ROLE
+          aws-region: $AWS_REGION
+
+      - name: Read terraform version 
+        id: read-version
+        run: |
+          echo "TERRAFORM_VERSION=`cat ../.terraform-version`"
+          echo "TERRAFORM_VERSION=`cat ../.terraform-version`" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.2.8
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Terraform Init
         id: init
