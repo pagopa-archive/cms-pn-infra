@@ -27,7 +27,8 @@ resource "aws_security_group" "alb" {
 
 
 module "alb" {
-  source = "terraform-aws-modules/alb/aws"
+  source  = "terraform-aws-modules/alb/aws"
+  version = "6.0"
 
   name = format("%s-alb", local.project)
 

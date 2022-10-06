@@ -1,0 +1,45 @@
+name: "Terraform-Apply"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - src/main
+      - .github/*
+
+defaults:
+  run:
+    shell: bash
+    working-directory: src/main
+
+jobs:
+  terraform:
+    name: "Deploy-Development-Environment"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.2.8
+
+      - name: Terraform Init
+        id: init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ./terraform.sh init prod
+
+      - name: Terraform Apply
+        if: github.event.pull_request.merged == true
+        id: apply
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ./terraform.sh apply prod -auto-approve
+        continue-on-error: true
