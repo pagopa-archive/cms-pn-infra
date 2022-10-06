@@ -7,10 +7,10 @@ on:
     paths:
       - src/main
       - '.github/workflows/*.yml'
+
 env:
  AWS_REGION: eu-central-1
  IAM_ROLE: arn:aws:iam::794703684555:role/GitHubActionIACRole
-
 
 defaults:
   run:
