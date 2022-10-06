@@ -32,6 +32,7 @@ jobs:
           ./terraform.sh init prod
 
       - name: Terraform Apply
+        if: github.event.pull_request.merged == true
         id: apply
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
