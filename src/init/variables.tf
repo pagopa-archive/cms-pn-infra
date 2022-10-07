@@ -10,6 +10,12 @@ variable "environment" {
   default     = "Uat"
 }
 
+variable "github_repository" {
+  type        = string
+  description = "Github repository in the format organization/repository"
+  default     = "pagopa/cms-pn-infra"
+}
+
 
 variable "tags" {
   type = map(any)
