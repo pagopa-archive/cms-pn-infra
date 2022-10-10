@@ -84,6 +84,12 @@ variable "ecs_cms_image_version" {
   description = "Cms image to deploy"
 }
 
+variable "ecs_cms_image" {
+  type        = string
+  description = "cms docker image"
+  default     = "ghcr.io/pagopa/cms-backend"
+}
+
 variable "tags" {
   type = map(any)
   default = {

@@ -53,8 +53,9 @@ resource "aws_ecs_task_definition" "main" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name  = local.ecs_task_name
-      image = join(":", [aws_ecr_repository.main.repository_url, var.ecs_cms_image_version])
+      name = local.ecs_task_name
+      #image = join(":", [aws_ecr_repository.main.repository_url, var.ecs_cms_image_version])
+      image = join(":", [var.ecs_cms_image, var.ecs_cms_image_version])
       environment = [
         {
           name  = "DATABASE_CLIENT"

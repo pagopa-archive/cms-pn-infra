@@ -6,7 +6,7 @@ app_name = "cms"
 
 enable_nat_gateway         = true
 ecs_enable_execute_command = true
-ecs_cms_image_version      = "36.0"
+ecs_cms_image_version      = "main"
 
 # Ref: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/132810155/Azure+-+Naming+Tagging+Convention#Tagging
 tags = {
