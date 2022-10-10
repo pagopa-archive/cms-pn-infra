@@ -58,6 +58,22 @@ resource "aws_ecs_task_definition" "main" {
       image = join(":", [var.ecs_cms_image, var.ecs_cms_image_version])
       environment = [
         {
+          name  = "APP_KEYS"
+          value = "63842B5, R62MUES"
+        },
+        {
+          name  = "API_TOKEN_SALT"
+          value = "JZLRZ9Z8QBS3"
+        },
+        {
+          name  = "ADMIN_JWT_SECRET"
+          value = "20HJZLNPZ9NI"
+        },
+        {
+          name  = "JWT_SECRET"
+          value = "YTK5VVT94U2Q"
+        },
+        {
           name  = "DATABASE_CLIENT"
           value = "postgres"
         },
