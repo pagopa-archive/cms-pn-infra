@@ -8,8 +8,8 @@ resource "aws_cloudfront_distribution" "alb" {
 
   origin {
 
-    domain_name = module.alb.lb_dns_name
-    origin_id   = split(".", module.alb.lb_dns_name)[0]
+    domain_name = module.alb_cms.lb_dns_name
+    origin_id   = split(".", module.alb_cms.lb_dns_name)[0]
 
     connection_attempts = 3
     connection_timeout  = 10
@@ -43,7 +43,7 @@ resource "aws_cloudfront_distribution" "alb" {
     # HTTPS requests we permit the distribution to serve
     allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = split(".", module.alb.lb_dns_name)[0]
+    target_origin_id = split(".", module.alb_cms.lb_dns_name)[0]
 
 
     forwarded_values {

@@ -141,7 +141,7 @@ resource "aws_ecs_service" "cms" {
   enable_execute_command = var.ecs_enable_execute_command
 
   load_balancer {
-    target_group_arn = module.alb.target_group_arns[0]
+    target_group_arn = module.alb_cms.target_group_arns[0]
     container_name   = aws_ecs_task_definition.cms.family
     container_port   = local.strapi_container_port
   }
