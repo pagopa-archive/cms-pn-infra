@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "fe" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name        = local.ecs_task_cms_name
+      name        = local.ecs_task_fe_name
       image       = join(":", [var.ecs_fe_image, var.ecs_fe_image_version])
       environment = [],
       "cpu" : 256,
