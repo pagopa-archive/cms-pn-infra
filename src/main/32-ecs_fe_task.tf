@@ -48,18 +48,17 @@ resource "aws_ecs_service" "fe" {
   desired_count          = 1
   enable_execute_command = var.ecs_enable_execute_command
 
-  /*
+
   load_balancer {
-    target_group_arn = module.alb.target_group_arns[0]
-    container_name   = aws_ecs_task_definition.cms.family
-    container_port   = local.strapi_container_port
+    target_group_arn = module.alb.target_group_arns[1]
+    container_name   = aws_ecs_task_definition.fe.family
+    container_port   = local.gatsby_container_port
   }
-  */
+
 
   network_configuration {
     subnets          = module.vpc.private_subnets
     assign_public_ip = false
     security_groups  = [aws_security_group.service.id]
   }
-
 }

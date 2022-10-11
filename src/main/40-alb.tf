@@ -48,21 +48,42 @@ module "alb" {
       protocol           = "HTTP"
       target_group_index = 0
     },
+    {
+      port               = 8000
+      protocol           = "HTTP"
+      target_group_index = 1
+    },
   ]
 
 
   target_groups = [
     {
       # service streapi
-      name             = format("%s-strapi", local.project)
-      backend_protocol = "HTTP"
-      backend_port     = local.strapi_container_port
-      #port        = 80
-      target_type = "ip"
-      #preserve_client_ip = true
+      name                 = format("%s-strapi", local.project)
+      backend_protocol     = "HTTP"
+      backend_port         = local.strapi_container_port
+      target_type          = "ip"
       deregistration_delay = 30
       vpc_id               = module.vpc.vpc_id
+      health_check = {
+        enabled = true
 
+        healthy_threshold   = 3
+        interval            = 30
+        timeout             = 6
+        unhealthy_threshold = 3
+        matcher             = "200-399"
+        path                = "/"
+      }
+    },
+    {
+      # service streapi
+      name                 = format("%s-gatsby", local.project)
+      backend_protocol     = "HTTP"
+      backend_port         = local.gatsby_container_port
+      target_type          = "ip"
+      deregistration_delay = 30
+      vpc_id               = module.vpc.vpc_id
       health_check = {
         enabled = true
 
