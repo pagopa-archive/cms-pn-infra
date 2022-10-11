@@ -6,8 +6,8 @@ variable "aws_region" {
 
 variable "app_name" {
   type        = string
-  default     = "pdv"
-  description = "App name. Personal Data Vault"
+  default     = "cms"
+  description = "App name. CMS"
 }
 
 variable "environment" {

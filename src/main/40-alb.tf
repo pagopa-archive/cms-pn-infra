@@ -26,7 +26,7 @@ resource "aws_security_group" "alb" {
 }
 
 
-module "alb" {
+module "alb_cms" {
   source  = "terraform-aws-modules/alb/aws"
   version = "6.0"
 
@@ -44,14 +44,9 @@ module "alb" {
 
   http_tcp_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
       target_group_index = 0
-    },
-    {
-      port               = 8000
-      protocol           = "HTTP"
-      target_group_index = 1
     },
   ]
 
@@ -71,25 +66,6 @@ module "alb" {
         healthy_threshold   = 3
         interval            = 30
         timeout             = 6
-        unhealthy_threshold = 3
-        matcher             = "200-399"
-        path                = "/"
-      }
-    },
-    {
-      # service streapi
-      name                 = format("%s-gatsby", local.project)
-      backend_protocol     = "HTTP"
-      backend_port         = local.gatsby_container_port
-      target_type          = "ip"
-      deregistration_delay = 30
-      vpc_id               = module.vpc.vpc_id
-      health_check = {
-        enabled = true
-
-        healthy_threshold   = 3
-        interval            = 30
-        timeout             = 20
         unhealthy_threshold = 3
         matcher             = "200-399"
         path                = "/"
