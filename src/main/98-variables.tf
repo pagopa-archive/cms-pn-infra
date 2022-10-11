@@ -79,15 +79,26 @@ variable "ecs_enable_execute_command" {
 }
 
 
+variable "ecs_cms_image" {
+  type        = string
+  description = "cms docker image"
+  default     = "ghcr.io/pagopa/cms-backend"
+}
+
 variable "ecs_cms_image_version" {
   type        = string
   description = "Cms image to deploy"
 }
 
-variable "ecs_cms_image" {
+variable "ecs_fe_image" {
   type        = string
-  description = "cms docker image"
-  default     = "ghcr.io/pagopa/cms-backend"
+  description = "fe docker image"
+  default     = "ghcr.io/pagopa/notifichedigitali.pagopa.it"
+}
+
+variable "ecs_fe_image_version" {
+  type        = string
+  description = "Fe image to deploy"
 }
 
 variable "tags" {
