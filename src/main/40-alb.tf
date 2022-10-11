@@ -89,7 +89,7 @@ module "alb" {
 
         healthy_threshold   = 3
         interval            = 30
-        timeout             = 6
+        timeout             = 20
         unhealthy_threshold = 3
         matcher             = "200-399"
         path                = "/"
