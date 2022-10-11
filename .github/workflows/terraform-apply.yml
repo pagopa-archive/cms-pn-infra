@@ -7,6 +7,12 @@ on:
     paths:
       - src/main
       - '.github/workflows/*.yml'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
 
 env:
  AWS_REGION: eu-central-1
