@@ -12,3 +12,8 @@ moved {
   from = aws_ecs_service.main
   to   = aws_ecs_service.cms
 }
+
+moved {
+  from = module.alb
+  to   = module.alb_cms
+}

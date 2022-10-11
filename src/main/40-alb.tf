@@ -30,7 +30,7 @@ module "alb_cms" {
   source  = "terraform-aws-modules/alb/aws"
   version = "6.0"
 
-  name = format("%s-alb", local.project)
+  name = "cms-alb"
 
   load_balancer_type = "application"
 
