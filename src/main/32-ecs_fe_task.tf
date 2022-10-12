@@ -7,8 +7,8 @@ resource "aws_ecs_task_definition" "fe" {
   family                   = local.ecs_task_fe_name
   execution_role_arn       = aws_iam_role.task_execution.arn
   task_role_arn            = aws_iam_role.task_execution.arn
-  cpu                      = 256
-  memory                   = 512
+  cpu                      = 512
+  memory                   = 1024
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
@@ -16,8 +16,8 @@ resource "aws_ecs_task_definition" "fe" {
       name        = local.ecs_task_fe_name
       image       = join(":", [var.ecs_fe_image, var.ecs_fe_image_version])
       environment = [],
-      "cpu" : 256,
-      "memory" : 512
+      "cpu" : 512,
+      "memory" : 1024
       essential = true
       portMappings = [
         {
@@ -48,11 +48,13 @@ resource "aws_ecs_service" "fe" {
   desired_count          = 1
   enable_execute_command = var.ecs_enable_execute_command
 
+  /*
   load_balancer {
     target_group_arn = module.alb_fe.target_group_arns[0]
     container_name   = aws_ecs_task_definition.fe.family
     container_port   = local.gatsby_container_port
   }
+  */
 
   network_configuration {
     subnets          = module.vpc.private_subnets
