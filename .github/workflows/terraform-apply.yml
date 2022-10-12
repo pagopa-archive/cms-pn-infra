@@ -49,7 +49,6 @@ jobs:
       - name: Read terraform version 
         id: read-version
         run: |
-          echo "TERRAFORM_VERSION=`cat ../.terraform-version`"
           echo "TERRAFORM_VERSION=`cat ../.terraform-version`" >> $GITHUB_ENV
 
       - name: Setup Terraform
