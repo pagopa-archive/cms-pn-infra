@@ -82,7 +82,7 @@ module "alb_fe" {
   source  = "terraform-aws-modules/alb/aws"
   version = "6.0"
 
-  name = "cms-alb"
+  name = "cms-fe"
 
   load_balancer_type = "application"
 
