@@ -46,7 +46,7 @@ output "alb_cms_dns_name" {
 }
 
 output "alb_fe_dns_name" {
-  value = module.alb_fe.lb_dns_name
+  value       = module.alb_fe.lb_dns_name
   description = "Preview frontend."
 }
 
