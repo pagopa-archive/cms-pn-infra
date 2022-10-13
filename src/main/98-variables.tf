@@ -4,12 +4,6 @@ variable "aws_region" {
   default     = "eu-south-1"
 }
 
-## Public Dns zones
-variable "public_dns_zones" {
-  type        = map(any)
-  description = "Route53 Hosted Zone"
-}
-
 variable "app_name" {
   type        = string
   default     = "cms"
