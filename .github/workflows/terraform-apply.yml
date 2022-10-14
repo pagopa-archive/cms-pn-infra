@@ -59,9 +59,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: |
-          ./terraform.sh init prod
+          ./terraform.sh init dev
 
       - name: Terraform Apply
         id: apply
         run: |
-          ./terraform.sh apply prod -auto-approve
+          ./terraform.sh apply dev -auto-approve
