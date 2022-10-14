@@ -6,7 +6,7 @@ aws_region  = "eu-south-1"
 app_name = "pn"
 
 public_dns_zones = {
-  "dev.notifichedigitali.pagopa.it" = {
+  "poc.pn.pagopa.it" = {
     comment = "Notifiche digitali public dns zone DEV."
   }
 }
