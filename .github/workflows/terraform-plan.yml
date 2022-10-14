@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         environment: ['dev']
-    name: "Deploy-Development-Environment"
+    name: "terraform-plan"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

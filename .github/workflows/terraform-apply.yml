@@ -34,7 +34,7 @@ permissions:
 
 jobs:
   terraform:
-    name: "Deploy-Development-Environment"
+    name: "terraform-apply"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
