@@ -5,6 +5,12 @@ aws_region  = "eu-south-1"
 # Notifiche digitali.
 app_name = "pn"
 
+public_dns_zones = {
+  "poc.pn.pagopa.it" = {
+    comment = "Notifiche digitali public dns zone DEV."
+  }
+}
+
 enable_nat_gateway         = true
 ecs_enable_execute_command = true
 ecs_cms_image_version      = "v1.0.0"

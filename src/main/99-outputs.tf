@@ -14,6 +14,15 @@ output "vpc_cidr" {
   value = module.vpc.vpc_cidr_block
 }
 
+# DNS Zone
+output "public_dns_zone_name" {
+  value = module.dn_zone.route53_zone_name
+}
+
+output "public_dns_servers" {
+  value = module.dn_zone.route53_zone_name_servers
+}
+
 
 ## Database
 output "db_cluster_database_name" {
