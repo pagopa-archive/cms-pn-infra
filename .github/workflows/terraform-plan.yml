@@ -51,9 +51,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: |
-          ./terraform.sh init prod
+          ./terraform.sh init dev
 
       - name: Terraform Plan
         id: plan
         run: |
-          ./terraform.sh plan prod
+          ./terraform.sh plan dev
