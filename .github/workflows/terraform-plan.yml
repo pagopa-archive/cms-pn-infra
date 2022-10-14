@@ -22,7 +22,10 @@ permissions:
 
 jobs:
   terraform:
-    name: "Deploy-Development-Environment"
+    strategy:
+      matrix:
+        environment: ['dev']
+    name: "terraform-plan"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,9 +54,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: |
-          ./terraform.sh init dev
+          ./terraform.sh init ${{ matrix.environment }}
 
       - name: Terraform Plan
         id: plan
         run: |
-          ./terraform.sh plan dev
+          ./terraform.sh plan ${{ matrix.environment }}
