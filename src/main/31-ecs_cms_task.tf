@@ -84,6 +84,17 @@ resource "aws_ecs_task_definition" "cms" {
         {
           name  = "BUCKET_PREFIX"
           value = "media"
+        },
+        {
+          name  = "GOOGLE_OAUTH_CLIENT_ID"
+          value = "TO-DO"
+        },
+        { name  = "GOOGLE_OAUTH_CLIENT_SECRET"
+          value = "TO-DO"
+        },
+        {
+          name  = "GOOGLE_OAUTH_REDIRECT_URI"
+          value = "TO-DO"
         }
       ],
       "cpu" : 256,
