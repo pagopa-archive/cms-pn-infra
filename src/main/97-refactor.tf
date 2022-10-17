@@ -17,3 +17,8 @@ moved {
   from = module.alb
   to   = module.alb_cms
 }
+
+moved {
+  from = module.dn_zone
+  to   = module.dns_zone
+}
