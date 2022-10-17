@@ -44,9 +44,10 @@ module "alb_cms" {
 
   http_tcp_listeners = [
     {
-      port               = 80
+      port               = 443
       protocol           = "HTTP"
       target_group_index = 0
+      certificate_arn    = aws_acm_certificate.cms.arn
     },
   ]
 
@@ -96,9 +97,10 @@ module "alb_fe" {
 
   http_tcp_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
       target_group_index = 0
+      certificate_arn    = aws_acm_certificate.preview.arn
     },
   ]
 
