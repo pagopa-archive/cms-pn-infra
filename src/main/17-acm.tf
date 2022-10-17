@@ -18,10 +18,11 @@ resource "aws_acm_certificate" "cms" {
   }
 }
 
+/*
 resource "aws_route53_record" "cert_validation" {
   for_each = {
-    for dvo in [aws_acm_certificate.preview.domain_validation_options,
-      aws_acm_certificate.cms.domain_validation_options] : dvo.domain_name => {
+    for dvo in concat([aws_acm_certificate.preview.domain_validation_options,
+      aws_acm_certificate.cms.domain_validation_options]) : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -35,3 +36,5 @@ resource "aws_route53_record" "cert_validation" {
   type            = each.value.type
   zone_id         = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
 }
+
+*/
