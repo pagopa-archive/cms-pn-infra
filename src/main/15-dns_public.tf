@@ -7,7 +7,7 @@ module "dns_zone" {
 }
 
 resource "aws_route53_record" "cms" {
-  zone_id = module.dns_zone.route53_zone_zone_id
+  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "cms"
   type    = "CNAME"
   records = [module.alb_cms.lb_dns_name]
@@ -17,7 +17,7 @@ resource "aws_route53_record" "cms" {
 
 ## Preview load balancer
 resource "aws_route53_record" "preview" {
-  zone_id = module.dns_zone.route53_zone_zone_id
+  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "preview"
   type    = "CNAME"
   records = [module.alb_fe.lb_dns_name]
