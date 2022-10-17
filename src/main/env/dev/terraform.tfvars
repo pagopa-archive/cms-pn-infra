@@ -11,6 +11,8 @@ public_dns_zones = {
   }
 }
 
+dns_record_ttl = 300 # 5 min
+
 enable_nat_gateway         = true
 ecs_enable_execute_command = true
 ecs_cms_image_version      = "v1.0.0"

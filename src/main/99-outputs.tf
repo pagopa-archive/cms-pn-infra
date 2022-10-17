@@ -16,11 +16,19 @@ output "vpc_cidr" {
 
 # DNS Zone
 output "public_dns_zone_name" {
-  value = module.dn_zone.route53_zone_name
+  value = module.dns_zone.route53_zone_name
 }
 
 output "public_dns_servers" {
-  value = module.dn_zone.route53_zone_name_servers
+  value = module.dns_zone.route53_zone_name_servers
+}
+
+output "fe_fqdn" {
+  value = aws_route53_record.preview.fqdn
+}
+
+output "cms_fqdn" {
+  value = aws_route53_record.cms.fqdn
 }
 
 
