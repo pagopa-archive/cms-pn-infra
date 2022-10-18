@@ -82,7 +82,7 @@ variable "ecs_enable_execute_command" {
 variable "ecs_cms_image" {
   type        = string
   description = "cms docker image"
-  default     = "ghcr.io/pagopa/cms-backend"
+  default     = "ghcr.io/pagopa/cms-pn-backend"
 }
 
 variable "ecs_cms_image_version" {
