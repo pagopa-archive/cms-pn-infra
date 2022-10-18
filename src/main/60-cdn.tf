@@ -1,31 +1,13 @@
 
 resource "aws_cloudfront_origin_access_identity" "main" {
-  comment = "Some comment"
+  comment = "Identity to access S3 bucket."
 }
 
 
 resource "aws_cloudfront_distribution" "alb" {
 
   origin {
-
-    domain_name = module.alb_cms.lb_dns_name
-    origin_id   = split(".", module.alb_cms.lb_dns_name)[0]
-
-    connection_attempts = 3
-    connection_timeout  = 10
-
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_keepalive_timeout = 5
-      origin_protocol_policy   = "http-only"
-      origin_read_timeout      = 30
-      origin_ssl_protocols     = ["TLSv1.2"]
-    }
-  }
-
-  origin {
-    domain_name = format("%s.s3.amazonaws.com", aws_s3_bucket.images.bucket)
+    domain_name = aws_s3_bucket.images.bucket_regional_domain_name
     origin_id   = aws_s3_bucket.images.bucket
 
     s3_origin_config {
@@ -35,25 +17,23 @@ resource "aws_cloudfront_distribution" "alb" {
 
   enabled         = true # enable CloudFront distribution
   is_ipv6_enabled = true
-  comment         = "CloudFront distribution Alb target."
+  comment         = "CloudFront distribution S3 target."
 
   #aliases = ["${var.route53_record_name}.${var.domain_name}"]
 
   default_cache_behavior {
     # HTTPS requests we permit the distribution to serve
-    allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS", ]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = split(".", module.alb_cms.lb_dns_name)[0]
+    target_origin_id = aws_s3_bucket.images.bucket
 
 
     forwarded_values {
       query_string = false
-
+      headers      = []
       cookies {
         forward = "none"
       }
-
-      headers = ["*"]
     }
 
     viewer_protocol_policy = "redirect-to-https"
@@ -70,7 +50,7 @@ resource "aws_cloudfront_distribution" "alb" {
     target_origin_id = aws_s3_bucket.images.bucket
 
     forwarded_values {
-      query_string = true
+      query_string = false
       headers      = ["Origin"]
 
       cookies {
