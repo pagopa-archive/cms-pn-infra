@@ -87,14 +87,14 @@ resource "aws_ecs_task_definition" "cms" {
         },
         {
           name  = "GOOGLE_OAUTH_CLIENT_ID"
-          value = "TO-DO"
+          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_CLIENT_ID"]
         },
         { name  = "GOOGLE_OAUTH_CLIENT_SECRET"
-          value = "TO-DO"
+          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_CLIENT_SECRET"]
         },
         {
           name  = "GOOGLE_OAUTH_REDIRECT_URI"
-          value = "TO-DO"
+          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_REDIRECT_URI"]
         }
       ],
       "cpu" : 256,
