@@ -50,22 +50,25 @@ module "alb_cms" {
 
   internal = false
 
+  http_tcp_listeners = [{
+    port        = 80
+    protocol    = "HTTP"
+    action_type = "redirect"
+    redirect = {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    },
+    },
+  ]
+
+
   https_listeners = [
     {
       port               = 443
       protocol           = "HTTPS"
       target_group_index = 0
       certificate_arn    = aws_acm_certificate.cms.arn
-    },
-    {
-      port        = 80
-      protocol    = "HTTP"
-      action_type = "redirect"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      },
     },
   ]
 
@@ -113,22 +116,24 @@ module "alb_fe" {
 
   internal = false
 
+  http_tcp_listeners = [{
+    port        = 80
+    protocol    = "HTTP"
+    action_type = "redirect"
+    redirect = {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    },
+    },
+  ]
+
   https_listeners = [
     {
       port               = 443
       protocol           = "HTTPS"
       certificate_arn    = aws_acm_certificate.preview.arn
       target_group_index = 0
-    },
-    {
-      port        = 80
-      protocol    = "HTTP"
-      action_type = "redirect"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      },
     },
   ]
 
