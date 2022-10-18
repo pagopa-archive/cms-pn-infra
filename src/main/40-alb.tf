@@ -17,6 +17,14 @@ resource "aws_security_group" "alb" {
     #prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
   }
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
+    #prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+  }
+
   egress {
     from_port   = 0             # Allowing any incoming port
     to_port     = 0             # Allowing any outgoing port
@@ -48,6 +56,16 @@ module "alb_cms" {
       protocol           = "HTTPS"
       target_group_index = 0
       certificate_arn    = aws_acm_certificate.cms.arn
+    },
+    {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      },
     },
   ]
 
@@ -101,6 +119,16 @@ module "alb_fe" {
       protocol           = "HTTPS"
       certificate_arn    = aws_acm_certificate.preview.arn
       target_group_index = 0
+    },
+    {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      },
     },
   ]
 
