@@ -10,7 +10,15 @@ resource "aws_security_group" "alb" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
-    from_port   = 80 # Allowing traffic in from port 80
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
+    #prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+  }
+
+  ingress {
+    from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
@@ -42,11 +50,22 @@ module "alb_cms" {
 
   internal = false
 
-  http_tcp_listeners = [
+  https_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
       target_group_index = 0
+      certificate_arn    = aws_acm_certificate.cms.arn
+    },
+    {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      },
     },
   ]
 
@@ -94,11 +113,22 @@ module "alb_fe" {
 
   internal = false
 
-  http_tcp_listeners = [
+  https_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = aws_acm_certificate.preview.arn
       target_group_index = 0
+    },
+    {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      },
     },
   ]
 

@@ -23,7 +23,7 @@ output "public_dns_servers" {
   value = module.dns_zone.route53_zone_name_servers
 }
 
-output "fe_fqdn" {
+output "preview_fqdn" {
   value = aws_route53_record.preview.fqdn
 }
 
