@@ -10,8 +10,8 @@ resource "aws_security_group" "alb" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
-    from_port   = 80 # Allowing traffic in from port 80
-    to_port     = 80
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
     #prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
