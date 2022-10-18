@@ -42,7 +42,7 @@ module "alb_cms" {
 
   internal = false
 
-  https_tcp_listeners = [
+  https_listeners = [
     {
       port               = 443
       protocol           = "HTTPS"
@@ -95,7 +95,7 @@ module "alb_fe" {
 
   internal = false
 
-  https_tcp_listeners = [
+  https_listeners = [
     {
       port               = 443
       protocol           = "HTTPS"
