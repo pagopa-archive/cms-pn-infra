@@ -161,10 +161,6 @@ resource "aws_ecs_task_definition" "cms" {
         {
           name  = "BUCKET_PREFIX"
           value = "media"
-        },
-        {
-          name  = "GOOGLE_OAUTH_REDIRECT_URI"
-          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_REDIRECT_URI"]
         }
       ],
       "cpu" : 512,
