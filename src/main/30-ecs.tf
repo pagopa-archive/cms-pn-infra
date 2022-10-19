@@ -15,15 +15,3 @@ data "aws_iam_policy_document" "task_execution" {
     }
   }
 }
-
-resource "aws_iam_role" "task_execution" {
-  name               = "ecsTaskExecutionRole"
-  description        = format("Execution role of %s task", local.ecs_task_cms_name)
-  assume_role_policy = data.aws_iam_policy_document.task_execution.json
-  tags               = { Name = format("%s-execution-task-role", local.project) }
-}
-
-resource "aws_iam_role_policy_attachment" "task_execution" {
-  role       = aws_iam_role.task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
-}

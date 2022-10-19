@@ -3,10 +3,22 @@ resource "aws_cloudwatch_log_group" "gatsby" {
   retention_in_days = var.logs_tasks_retention
 }
 
+resource "aws_iam_role" "task_fe_execution" {
+  name               = "EcsTaskFeExecutionRole"
+  description        = format("Execution role of %s task", local.ecs_task_fe_name)
+  assume_role_policy = data.aws_iam_policy_document.task_execution.json
+  tags               = { Name = format("%s-execution-task-role", local.project) }
+}
+
+resource "aws_iam_role_policy_attachment" "task_fe_execution" {
+  role       = aws_iam_role.task_fe_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
 resource "aws_ecs_task_definition" "fe" {
   family                   = local.ecs_task_fe_name
-  execution_role_arn       = aws_iam_role.task_execution.arn
-  task_role_arn            = aws_iam_role.task_execution.arn
+  execution_role_arn       = aws_iam_role.task_fe_execution.arn
+  task_role_arn            = aws_iam_role.task_fe_execution.arn
   cpu                      = 512
   memory                   = 1024
   network_mode             = "awsvpc"

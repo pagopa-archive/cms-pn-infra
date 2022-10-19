@@ -8,6 +8,8 @@ locals {
   strapi_container_port = 1337
   gatsby_container_port = 8000
 
+  secret_google_oauth = "google/oauth"
+
   logs = {
     name_cms = "/ecs/strapi"
     name_fe  = "/ecs/gatsby"
