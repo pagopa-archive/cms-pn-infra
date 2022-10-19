@@ -79,10 +79,10 @@ resource "aws_ecs_task_definition" "cms" {
     {
       name  = local.ecs_task_cms_name
       image = join(":", [var.ecs_cms_image, var.ecs_cms_image_version])
-      secret = [
+      secrets = [
         {
-          name      = "PASSWORD",
-          valueFrom = data.aws_secretsmanager_secret.google_oauth.arn
+          name      = "GOOGLE_OAUTH_CLIENT_ID",
+          valueFrom = "${data.aws_secretsmanager_secret.google_oauth.arn}:GOOGLE_OAUTH_CLIENT_ID::"
         }
       ]
       environment = [
@@ -155,7 +155,7 @@ resource "aws_ecs_task_definition" "cms" {
           value = "media"
         },
         {
-          name  = "GOOGLE_OAUTH_CLIENT_ID"
+          name  = "GOOGLE_OAUTH_CLIENT_ID_OLD"
           value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_CLIENT_ID"]
         },
         { name  = "GOOGLE_OAUTH_CLIENT_SECRET"
