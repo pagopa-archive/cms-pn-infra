@@ -29,7 +29,7 @@ resource "aws_iam_policy" "task_cms_secretmanager" {
           "kms:Decrypt"
         ],
         "Resource" : [
-          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.arn}:secret:${local.secret_google_oauth}",
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_google_oauth}",
         ]
       }
     ]
