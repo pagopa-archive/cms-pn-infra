@@ -1,6 +1,27 @@
+# ECS Cms task
 resource "aws_cloudwatch_log_group" "strapi" {
   name              = local.logs.name_cms
   retention_in_days = var.logs_tasks_retention
+}
+
+resource "random_string" "cms_api_keys" {
+  count   = 2
+  length  = 7
+  special = false
+  lower   = false
+}
+
+resource "random_string" "cms_api_token_salt" {
+  length  = 12
+  special = false
+  lower   = false
+}
+
+resource "random_string" "jwt_secrets" {
+  count   = 2
+  length  = 12
+  special = false
+  lower   = false
 }
 
 resource "aws_ecs_task_definition" "cms" {
@@ -18,19 +39,19 @@ resource "aws_ecs_task_definition" "cms" {
       environment = [
         {
           name  = "APP_KEYS"
-          value = "63842B5, R62MUES"
+          value = join(", ", random_string.cms_api_keys.*.result)
         },
         {
           name  = "API_TOKEN_SALT"
-          value = "JZLRZ9Z8QBS3"
+          value = random_string.cms_api_token_salt.result
         },
         {
           name  = "ADMIN_JWT_SECRET"
-          value = "20HJZLNPZ9NI"
+          value = random_string.jwt_secrets[0].result
         },
         {
           name  = "JWT_SECRET"
-          value = "YTK5VVT94U2Q"
+          value = random_string.jwt_secrets[1].result
         },
         {
           name  = "DATABASE_CLIENT"
@@ -41,8 +62,7 @@ resource "aws_ecs_task_definition" "cms" {
           value = module.aurora_postgresql.cluster_endpoint
         },
         {
-          name = "DATABASE_PORT"
-          #value = "${module.aurora_postgresql.cluster_port}"
+          name  = "DATABASE_PORT"
           value = "5432"
         },
         {
