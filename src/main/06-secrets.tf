@@ -1,5 +1,5 @@
 data "aws_secretsmanager_secret" "google_oauth" {
-  name = "google/oauth"
+  name = local.secret_google_oauth
 }
 
 

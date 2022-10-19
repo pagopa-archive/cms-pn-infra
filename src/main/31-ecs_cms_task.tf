@@ -1,4 +1,47 @@
 # ECS Cms task
+
+resource "aws_iam_role" "task_cms_execution" {
+  name               = "EcsTaskCMSExecutionRole"
+  description        = format("Execution role of %s task", local.ecs_task_cms_name)
+  assume_role_policy = data.aws_iam_policy_document.task_execution.json
+  tags               = { Name = format("%s-execution-task-role", local.project) }
+}
+
+resource "aws_iam_role_policy_attachment" "task_cms_execution" {
+  role       = aws_iam_role.task_cms_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+resource "aws_iam_policy" "task_cms_secretmanager" {
+  name        = "ECSCMSGetSecrets"
+  path        = "/"
+  description = "Policy to allow to manage files in S3 bucket"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue",
+          "kms:Decrypt"
+        ],
+        "Resource" : [
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_google_oauth}*",
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "task_cms_secret" {
+  role       = aws_iam_role.task_cms_execution.name
+  policy_arn = aws_iam_policy.task_cms_secretmanager.arn
+}
+
+
 resource "aws_cloudwatch_log_group" "strapi" {
   name              = local.logs.name_cms
   retention_in_days = var.logs_tasks_retention
@@ -26,8 +69,8 @@ resource "random_string" "jwt_secrets" {
 
 resource "aws_ecs_task_definition" "cms" {
   family                   = local.ecs_task_cms_name
-  execution_role_arn       = aws_iam_role.task_execution.arn
-  task_role_arn            = aws_iam_role.task_execution.arn
+  execution_role_arn       = aws_iam_role.task_cms_execution.arn
+  task_role_arn            = aws_iam_role.task_cms_execution.arn
   cpu                      = 512
   memory                   = 1024
   network_mode             = "awsvpc"
@@ -36,6 +79,20 @@ resource "aws_ecs_task_definition" "cms" {
     {
       name  = local.ecs_task_cms_name
       image = join(":", [var.ecs_cms_image, var.ecs_cms_image_version])
+      secrets = [
+        {
+          name      = "GOOGLE_OAUTH_CLIENT_ID",
+          valueFrom = "${data.aws_secretsmanager_secret.google_oauth.arn}:GOOGLE_OAUTH_CLIENT_ID::"
+        },
+        {
+          name      = "GOOGLE_OAUTH_CLIENT_SECRET",
+          valueFrom = "${data.aws_secretsmanager_secret.google_oauth.arn}:GOOGLE_OAUTH_CLIENT_SECRET::"
+        },
+        {
+          name      = "GOOGLE_OAUTH_REDIRECT_URI",
+          valueFrom = "${data.aws_secretsmanager_secret.google_oauth.arn}:GOOGLE_OAUTH_REDIRECT_URI::"
+        }
+      ]
       environment = [
         {
           name  = "APP_KEYS"
@@ -104,17 +161,6 @@ resource "aws_ecs_task_definition" "cms" {
         {
           name  = "BUCKET_PREFIX"
           value = "media"
-        },
-        {
-          name  = "GOOGLE_OAUTH_CLIENT_ID"
-          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_CLIENT_ID"]
-        },
-        { name  = "GOOGLE_OAUTH_CLIENT_SECRET"
-          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_CLIENT_SECRET"]
-        },
-        {
-          name  = "GOOGLE_OAUTH_REDIRECT_URI"
-          value = jsondecode(data.aws_secretsmanager_secret_version.google_oauth.secret_string)["GOOGLE_OAUTH_REDIRECT_URI"]
         }
       ],
       "cpu" : 512,
