@@ -79,6 +79,12 @@ resource "aws_ecs_task_definition" "cms" {
     {
       name  = local.ecs_task_cms_name
       image = join(":", [var.ecs_cms_image, var.ecs_cms_image_version])
+      secret = [
+        {
+          name      = "PASSWORD",
+          valueFrom = data.aws_secretsmanager_secret.google_oauth.arn
+        }
+      ]
       environment = [
         {
           name  = "APP_KEYS"
