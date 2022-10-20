@@ -30,7 +30,7 @@ resource "aws_ecs_task_definition" "fe" {
       environment = [
         {
           name  = "STRAPI_API_URL"
-          value = join("/", [aws_route53_record.cms.fqdn, "api"])
+          value = format("https://%s", join("/", [aws_route53_record.cms.fqdn, "api"]))
         },
         {
           name  = "STRAPI_TOKEN"
