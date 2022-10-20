@@ -47,20 +47,20 @@ resource "aws_cloudwatch_log_group" "strapi" {
   retention_in_days = var.logs_tasks_retention
 }
 
-resource "random_string" "cms_api_keys" {
+resource "random_password" "cms_api_keys" {
   count   = 2
   length  = 7
   special = false
   lower   = false
 }
 
-resource "random_string" "cms_api_token_salt" {
+resource "random_password" "cms_api_token_salt" {
   length  = 12
   special = false
   lower   = false
 }
 
-resource "random_string" "jwt_secrets" {
+resource "random_password" "jwt_secrets" {
   count   = 2
   length  = 12
   special = false
@@ -96,19 +96,19 @@ resource "aws_ecs_task_definition" "cms" {
       environment = [
         {
           name  = "APP_KEYS"
-          value = join(", ", random_string.cms_api_keys.*.result)
+          value = join(", ", random_password.cms_api_keys.*.result)
         },
         {
           name  = "API_TOKEN_SALT"
-          value = random_string.cms_api_token_salt.result
+          value = random_password.cms_api_token_salt.result
         },
         {
           name  = "ADMIN_JWT_SECRET"
-          value = random_string.jwt_secrets[0].result
+          value = random_password.jwt_secrets[0].result
         },
         {
           name  = "JWT_SECRET"
-          value = random_string.jwt_secrets[1].result
+          value = random_password.jwt_secrets[1].result
         },
         {
           name  = "DATABASE_CLIENT"

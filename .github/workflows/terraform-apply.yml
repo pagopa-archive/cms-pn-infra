@@ -1,10 +1,6 @@
 name: "Terraform-Apply"
 
 on:
-  pull_request:
-    branches: 
-      - main
-    types: [closed]
   push:
     branches:
       - main
