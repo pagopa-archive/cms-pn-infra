@@ -25,9 +25,18 @@ resource "aws_ecs_task_definition" "fe" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name        = local.ecs_task_fe_name
-      image       = join(":", [var.ecs_fe_image, var.ecs_fe_image_version])
-      environment = [],
+      name  = local.ecs_task_fe_name
+      image = join(":", [var.ecs_fe_image, var.ecs_fe_image_version])
+      environment = [
+        {
+          name  = "STRAPI_API_URL"
+          value = join("/", [aws_route53_record.cms.fqdn, "api"])
+        },
+        {
+          name  = "STRAPI_TOKEN"
+          value = random_string.cms_api_token_salt.result
+        }
+      ]
       "cpu" : 512,
       "memory" : 1024
       essential = true
