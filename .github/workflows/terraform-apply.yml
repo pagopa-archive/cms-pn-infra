@@ -8,15 +8,6 @@ on:
     paths:
       - src/main
       - '.github/workflows/*.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - src/main
-      - '.github/workflows/*.yml'
-    types: 
-      - ready_for_review
-      - review_requested
   workflow_dispatch:
     inputs:
       logLevel:
