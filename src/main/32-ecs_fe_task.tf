@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "fe" {
         },
         {
           name  = "STRAPI_TOKEN"
-          value = random_string.cms_api_token_salt.result
+          value = random_password.cms_api_token_salt.result
         }
       ]
       "cpu" : 512,
