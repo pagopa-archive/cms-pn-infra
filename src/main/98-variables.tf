@@ -90,6 +90,12 @@ variable "ecs_cms_image_version" {
   description = "Cms image to deploy"
 }
 
+variable "cms_github_repository" {
+  type        = string
+  description = "github repository with CMS codebase in the form organisation/repository."
+  default     = "pagopa/cms-pn-backend"
+}
+
 variable "ecs_fe_image" {
   type        = string
   description = "fe docker image"

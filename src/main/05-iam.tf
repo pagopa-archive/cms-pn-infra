@@ -43,3 +43,61 @@ resource "aws_iam_policy_attachment" "strapi-policy" {
   users      = [aws_iam_user.strapi.name]
   policy_arn = aws_iam_policy.upload_image.arn
 }
+
+## Deploy role
+resource "aws_iam_role" "deploy_ecs" {
+  name        = "GitHubActionDeployECS"
+  description = "Role to assume to deploy on ECS."
+
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          "Federated" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" : "repo:${var.cms_github_repository}:*"
+          },
+          "ForAllValues:StringEquals" = {
+            "token.actions.githubusercontent.com:iss" : "https://token.actions.githubusercontent.com",
+            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "deploy_ecs" {
+  name        = "PagoPaECSDeploy"
+  description = "Policy to allow deploy on ECS."
+
+  policy = jsonencode(
+    {
+      Version = "2012-10-17",
+      Statement = [
+        {
+          Sid    = "ECSDeploy"
+          Effect = "Allow"
+          Action : [
+            "ecs:UpdateService",
+            "ecs:DescribeTaskDefinition"
+          ],
+          Resource = [
+            "arn:aws:ecs:*:${data.aws_caller_identity.current.account_id}:service/*/*"
+          ]
+        }
+      ]
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "deploy_ecs" {
+  role       = aws_iam_role.deploy_ecs.name
+  policy_arn = aws_iam_policy.deploy_ecs.policy_arn
+}
