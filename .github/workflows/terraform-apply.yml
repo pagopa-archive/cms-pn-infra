@@ -1,7 +1,6 @@
 name: "Terraform-Apply"
 
 on:
-
   push:
     branches:
       - main
@@ -18,11 +17,20 @@ on:
         options:
         - info
         - warning
-        - debug 
+        - debug
+      environment:
+        description: 'Which environment to update.'
+        type: choice
+        default: 'dev'
+        required: true 
+        options:
+        - dev
+        - prod
 
 env:
  AWS_REGION: eu-south-1
  IAM_ROLE: arn:aws:iam::516175876821:role/GitHubActionIACRole
+ ENVIRONMENT:  github.event.inputs.environment || 'dev'
 
 defaults:
   run:
