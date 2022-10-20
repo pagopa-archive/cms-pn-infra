@@ -8,6 +8,9 @@ output "strapi_user_secret_key" {
   sensitive = true
 }
 
+output "deploy_role_arn" {
+  value = aws_iam_role.deploy_ecs.arn
+}
 
 # Network
 output "vpc_cidr" {
