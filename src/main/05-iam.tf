@@ -79,20 +79,32 @@ resource "aws_iam_policy" "deploy_ecs" {
 
   policy = jsonencode(
     {
-      Version = "2012-10-17",
-      Statement = [
+      "Version" : "2012-10-17",
+      "Statement" : [
         {
-          Sid    = "ECSDeploy"
-          Effect = "Allow"
-          Action : [
-            "ecs:UpdateService",
-            "ecs:DescribeTaskDefinition"
+          "Action" : [
+            "ecs:DescribeTaskDefinition",
+            "ecs:DescribeTaskDefinition",
+            "ecs:RegisterTaskDefinition",
+            "ecs:DescribeServices",
+            "ecs:UpdateService"
           ],
-          Resource = [
-            "arn:aws:ecs:*:${data.aws_caller_identity.current.account_id}:service/*/*"
+          "Effect" : "Allow",
+          "Resource" : [
+            "*"
+          ],
+          "Sid" : "ECSDeploy"
+        },
+        {
+          "Action" : [
+            "iam:PassRole"
+          ],
+          "Effect" : "Allow",
+          "Resource" : [
+            "${aws_iam_role.task_cms_execution.arn}"
           ]
         }
-      ]
+      ],
     }
   )
 }
