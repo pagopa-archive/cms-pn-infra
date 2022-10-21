@@ -51,8 +51,8 @@ resource "aws_ecs_task_definition" "fe" {
   family                   = local.ecs_task_fe_name
   execution_role_arn       = aws_iam_role.task_fe_execution.arn
   task_role_arn            = aws_iam_role.task_fe_execution.arn
-  cpu                      = 1024
-  memory                   = 2048
+  cpu                      = 512
+  memory                   = 1024
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
@@ -68,11 +68,11 @@ resource "aws_ecs_task_definition" "fe" {
       environment = [
         {
           name  = "STRAPI_API_URL"
-          value = format("https://%s", join("/", [aws_route53_record.cms.fqdn, "api"]))
+          value = format("https://%s", aws_route53_record.cms.fqdn)
         }
       ]
-      "cpu" : 1024,
-      "memory" : 2048
+      "cpu" : 512,
+      "memory" : 1024
       essential = true
       portMappings = [
         {
