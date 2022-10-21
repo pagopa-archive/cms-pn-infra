@@ -34,7 +34,6 @@ output "cms_fqdn" {
   value = aws_route53_record.cms.fqdn
 }
 
-
 ## Database
 output "db_cluster_database_name" {
   value = module.aurora_postgresql.cluster_database_name
@@ -47,7 +46,6 @@ output "db_cluster_endpoint" {
 output "db_cluster_port" {
   value = module.aurora_postgresql.cluster_port
 }
-
 
 output "db_cluster_master_username" {
   value     = module.aurora_postgresql.cluster_master_username
