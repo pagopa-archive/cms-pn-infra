@@ -9,6 +9,7 @@ locals {
   gatsby_container_port = 8000
 
   secret_google_oauth = "google/oauth"
+  secret_strapi       = "strapi"
 
   logs = {
     name_cms = "/ecs/strapi"
