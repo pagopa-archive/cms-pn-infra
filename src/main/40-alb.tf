@@ -151,8 +151,8 @@ module "alb_fe" {
         enabled = true
 
         healthy_threshold   = 3
-        interval            = 60
-        timeout             = 30
+        interval            = 330
+        timeout             = 300
         unhealthy_threshold = 3
         matcher             = "200-399"
         path                = "/"
