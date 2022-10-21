@@ -35,7 +35,7 @@ resource "aws_iam_policy" "task_fe_secretmanager" {
           "kms:Decrypt"
         ],
         "Resource" : [
-          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.strapi}*",
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_strapi}*",
         ]
       }
     ]
@@ -62,7 +62,7 @@ resource "aws_ecs_task_definition" "fe" {
       secrets = [
         {
           name      = "STRAPI_TOKEN",
-          valueFrom = "${data.aws_secretsmanager_secret.secret_strapi.arn}:STRAPI_TOKEN::"
+          valueFrom = "${data.aws_secretsmanager_secret.strapi.arn}:STRAPI_TOKEN::"
         }
       ]
       environment = [
