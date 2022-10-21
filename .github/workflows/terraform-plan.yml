@@ -6,11 +6,11 @@ on:
       - "main"
       - "master"
     paths:
-      - src/main
+      - 'src/main/**'
       - '.github/workflows/*.yml'
   pull_request:
     paths:
-      - src/main
+      - 'src/main/**'
       - '.github/workflows/*.yml'
 
 env:

@@ -52,7 +52,7 @@ resource "aws_ecs_task_definition" "fe" {
   execution_role_arn       = aws_iam_role.task_fe_execution.arn
   task_role_arn            = aws_iam_role.task_fe_execution.arn
   cpu                      = 1024
-  memory                   = 2048
+  memory                   = 4096
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
@@ -72,7 +72,7 @@ resource "aws_ecs_task_definition" "fe" {
         }
       ]
       "cpu" : 1024,
-      "memory" : 2048
+      "memory" : 4096
       essential = true
       portMappings = [
         {
