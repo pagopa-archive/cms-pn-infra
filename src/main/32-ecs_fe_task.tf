@@ -35,7 +35,7 @@ resource "aws_iam_policy" "task_fe_secretmanager" {
           "kms:Decrypt"
         ],
         "Resource" : [
-          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_strapi}*",
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_strapi}*"
         ]
       }
     ]
@@ -43,7 +43,7 @@ resource "aws_iam_policy" "task_fe_secretmanager" {
 }
 
 resource "aws_iam_role_policy_attachment" "task_fe_secret" {
-  role       = aws_iam_role.task_cms_execution.name
+  role       = aws_iam_role.task_fe_execution.name
   policy_arn = aws_iam_policy.task_fe_secretmanager.arn
 }
 
