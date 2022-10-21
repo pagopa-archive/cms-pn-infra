@@ -3,6 +3,8 @@ resource "aws_cloudwatch_log_group" "gatsby" {
   retention_in_days = var.logs_tasks_retention
 }
 
+# ecs role
+
 resource "aws_iam_role" "task_fe_execution" {
   name               = "EcsTaskFeExecutionRole"
   description        = format("Execution role of %s task", local.ecs_task_fe_name)
@@ -13,6 +15,36 @@ resource "aws_iam_role" "task_fe_execution" {
 resource "aws_iam_role_policy_attachment" "task_fe_execution" {
   role       = aws_iam_role.task_fe_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+## secret policy
+resource "aws_iam_policy" "task_fe_secretmanager" {
+  name        = "ECSFEGetSecrets"
+  path        = "/"
+  description = "Policy to allow to access to required secrets."
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue",
+          "kms:Decrypt"
+        ],
+        "Resource" : [
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.strapi}*",
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "task_fe_secret" {
+  role       = aws_iam_role.task_cms_execution.name
+  policy_arn = aws_iam_policy.task_fe_secretmanager.arn
 }
 
 resource "aws_ecs_task_definition" "fe" {
@@ -27,14 +59,16 @@ resource "aws_ecs_task_definition" "fe" {
     {
       name  = local.ecs_task_fe_name
       image = join(":", [var.ecs_fe_image, var.ecs_fe_image_version])
+      secrets = [
+        {
+          name      = "STRAPI_TOKEN",
+          valueFrom = "${data.aws_secretsmanager_secret.secret_strapi.arn}:STRAPI_TOKEN::"
+        }
+      ]
       environment = [
         {
           name  = "STRAPI_API_URL"
           value = format("https://%s", join("/", [aws_route53_record.cms.fqdn, "api"]))
-        },
-        {
-          name  = "STRAPI_TOKEN"
-          value = random_password.cms_api_token_salt.result
         }
       ]
       "cpu" : 512,

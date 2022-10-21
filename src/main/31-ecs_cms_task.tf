@@ -15,7 +15,7 @@ resource "aws_iam_role_policy_attachment" "task_cms_execution" {
 resource "aws_iam_policy" "task_cms_secretmanager" {
   name        = "ECSCMSGetSecrets"
   path        = "/"
-  description = "Policy to allow to manage files in S3 bucket"
+  description = "Policy to allow to access to required secrets."
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
