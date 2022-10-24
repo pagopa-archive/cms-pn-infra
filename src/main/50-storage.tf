@@ -60,7 +60,7 @@ resource "random_integer" "bucket_website_preview" {
   max = 9999
 }
 resource "aws_s3_bucket" "website_preview" {
-  bucket = format("preview-%04s", random_integer.website_preview.result)
+  bucket = format("preview-%04s", random_integer.bucket_website_preview.result)
 
   lifecycle {
     prevent_destroy = true
