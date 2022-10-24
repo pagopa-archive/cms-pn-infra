@@ -7,8 +7,8 @@ resource "aws_cloudfront_origin_access_identity" "main" {
 resource "aws_cloudfront_distribution" "alb" {
 
   origin {
-    domain_name = aws_s3_bucket.images.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.images.bucket
+    domain_name = aws_s3_bucket.cms_media.bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.cms_media.bucket
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.main.cloudfront_access_identity_path

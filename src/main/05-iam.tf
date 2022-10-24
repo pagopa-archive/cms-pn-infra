@@ -32,7 +32,7 @@ resource "aws_iam_policy" "upload_image" {
           "s3:PutObject"
         ]
         Effect   = "Allow"
-        Resource = format("%s/*", aws_s3_bucket.images.arn)
+        Resource = format("%s/*", aws_s3_bucket.cms_media.arn)
       },
     ]
   })

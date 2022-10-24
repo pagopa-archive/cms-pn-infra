@@ -39,7 +39,7 @@ resource "aws_s3_bucket_versioning" "cms_media" {
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.images.arn}/*"]
+    resources = ["${aws_s3_bucket.cms_media.arn}/*"]
 
     principals {
       type        = "AWS"
