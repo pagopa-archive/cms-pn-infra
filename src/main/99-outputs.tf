@@ -26,9 +26,11 @@ output "public_dns_servers" {
   value = module.dns_zone.route53_zone_name_servers
 }
 
+/*
 output "preview_fqdn" {
   value = aws_route53_record.preview.fqdn
 }
+*/
 
 output "cms_fqdn" {
   value = aws_route53_record.cms.fqdn
@@ -63,10 +65,12 @@ output "alb_cms_dns_name" {
   value = module.alb_cms.lb_dns_name
 }
 
+/*
 output "alb_fe_dns_name" {
   value       = module.alb_fe.lb_dns_name
   description = "Preview frontend."
 }
+*/
 
 ## Storage
 output "image_s3_bucket" {
