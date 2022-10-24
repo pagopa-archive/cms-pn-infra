@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "alb" {
     # HTTPS requests we permit the distribution to serve
     allowed_methods  = ["GET", "HEAD", "OPTIONS", ]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = aws_s3_bucket.images.bucket
+    target_origin_id = aws_s3_bucket.cms_media.bucket
 
 
     forwarded_values {
@@ -47,7 +47,7 @@ resource "aws_cloudfront_distribution" "alb" {
     path_pattern     = "/media/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = aws_s3_bucket.images.bucket
+    target_origin_id = aws_s3_bucket.cms_media.bucket
 
     forwarded_values {
       query_string = false

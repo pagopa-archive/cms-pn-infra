@@ -22,3 +22,13 @@ moved {
   from = module.dn_zone
   to   = module.dns_zone
 }
+
+moved {
+  from = aws_s3_bucket.terraform_states
+  to   = aws_s3_bucket.cms_media
+}
+
+moved {
+  from = aws_s3_bucket_versioning.terraform_states
+  to   = aws_s3_bucket_versioning.cms_media
+}

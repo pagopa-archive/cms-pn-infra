@@ -74,11 +74,11 @@ output "alb_fe_dns_name" {
 
 ## Storage
 output "image_s3_bucket" {
-  value = aws_s3_bucket.images.bucket
+  value = aws_s3_bucket.cms_media.bucket
 }
 
 output "image_s3_domain" {
-  value = aws_s3_bucket.images.bucket_domain_name
+  value = aws_s3_bucket.cms_media.bucket_domain_name
 }
 
 ## CDN
