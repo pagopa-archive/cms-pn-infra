@@ -32,3 +32,13 @@ moved {
   from = aws_s3_bucket_versioning.terraform_states
   to   = aws_s3_bucket_versioning.cms_media
 }
+
+moved {
+  from = random_integer.bucket_suffix
+  to   = random_integer.bucket_cms_media
+}
+
+moved {
+  from = aws_s3_bucket_policy.cloudfront
+  to   = aws_s3_bucket_policy.cms_media
+}

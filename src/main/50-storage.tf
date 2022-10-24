@@ -1,9 +1,9 @@
-resource "random_integer" "bucket_suffix" {
+resource "random_integer" "bucket_cms_media" {
   min = 1
   max = 9999
 }
 resource "aws_s3_bucket" "cms_media" {
-  bucket = format("cms-images-%04s", random_integer.bucket_suffix.result)
+  bucket = format("cms-images-%04s", random_integer.bucket_cms_media.result)
 
   lifecycle {
     prevent_destroy = true
@@ -49,6 +49,37 @@ data "aws_iam_policy_document" "s3_policy" {
 }
 
 resource "aws_s3_bucket_policy" "cloudfront" {
+  bucket = aws_s3_bucket.cms_media.id
+  policy = data.aws_iam_policy_document.s3_policy.json
+}
+
+
+## Storage static website
+resource "random_integer" "bucket_website_preview" {
+  min = 1
+  max = 9999
+}
+resource "aws_s3_bucket" "website_preview" {
+  bucket = format("preview-%04s", random_integer.website_preview.result)
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  tags = {
+    name = "Content images"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "website_preview" {
+  bucket                  = aws_s3_bucket.website_preview.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_policy" "website_preview" {
   bucket = aws_s3_bucket.cms_media.id
   policy = data.aws_iam_policy_document.s3_policy.json
 }
