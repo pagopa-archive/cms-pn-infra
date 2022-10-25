@@ -197,7 +197,7 @@ resource "aws_security_group" "service" {
     to_port   = 0
     protocol  = "-1"
     # Only allowing traffic in from the load balancer security group
-    security_groups = [aws_security_group.media.id]
+    security_groups = [aws_security_group.alb.id]
   }
 
   egress {
