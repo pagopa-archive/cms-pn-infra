@@ -1,16 +1,16 @@
 # TLS Certificates
 
-/*
+
 resource "aws_acm_certificate" "preview" {
   domain_name       = aws_route53_record.preview.fqdn
   validation_method = "DNS"
+  provider          = aws.us-east-1
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-*/
 
 resource "aws_acm_certificate" "cms" {
   domain_name       = aws_route53_record.cms.fqdn
