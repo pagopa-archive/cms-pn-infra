@@ -156,7 +156,7 @@ resource "aws_ecs_task_definition" "cms" {
         },
         {
           name  = "CDN_BASE_URL"
-          value = format("https://%s", aws_cloudfront_distribution.alb.domain_name)
+          value = format("https://%s", aws_cloudfront_distribution.media.domain_name)
         },
         {
           name  = "BUCKET_PREFIX"
@@ -197,7 +197,7 @@ resource "aws_security_group" "service" {
     to_port   = 0
     protocol  = "-1"
     # Only allowing traffic in from the load balancer security group
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [aws_security_group.media.id]
   }
 
   egress {

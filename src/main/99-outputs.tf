@@ -83,5 +83,5 @@ output "image_s3_domain" {
 
 ## CDN
 output "cdn_domain_name" {
-  value = aws_cloudfront_distribution.alb.domain_name
+  value = aws_cloudfront_distribution.media.domain_name
 }

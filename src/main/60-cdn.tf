@@ -4,7 +4,7 @@ resource "aws_cloudfront_origin_access_identity" "main" {
 }
 
 
-resource "aws_cloudfront_distribution" "alb" {
+resource "aws_cloudfront_distribution" "media" {
 
   origin {
     domain_name = aws_s3_bucket.cms_media.bucket_regional_domain_name
@@ -17,7 +17,7 @@ resource "aws_cloudfront_distribution" "alb" {
 
   enabled         = true # enable CloudFront distribution
   is_ipv6_enabled = true
-  comment         = "CloudFront distribution S3 target."
+  comment         = "CloudFront distribution cms media"
 
   #aliases = ["${var.route53_record_name}.${var.domain_name}"]
 
@@ -95,7 +95,7 @@ resource "aws_cloudfront_distribution" "preview" {
 
   enabled         = true # enable CloudFront distribution
   is_ipv6_enabled = true
-  comment         = "CloudFront distribution S3 target."
+  comment         = "CloudFront distribution preview website."
 
   #aliases = ["${var.route53_record_name}.${var.domain_name}"]
 

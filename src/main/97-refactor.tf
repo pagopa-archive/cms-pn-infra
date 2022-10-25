@@ -42,3 +42,8 @@ moved {
   from = aws_iam_policy_document.s3_policy
   to   = aws_iam_policy_document.s3_policy_media
 }
+
+moved {
+  from = aws_cloudfront_distribution.alb
+  to   = aws_cloudfront_distribution.media
+}
