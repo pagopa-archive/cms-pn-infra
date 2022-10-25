@@ -98,7 +98,7 @@ resource "aws_cloudfront_distribution" "preview" {
   comment             = "CloudFront distribution preview website."
   default_root_object = "index.html"
 
-  #aliases = ["${var.route53_record_name}.${var.domain_name}"]
+  aliases = [aws_route53_record.preview.fqdn]
 
   default_cache_behavior {
     # HTTPS requests we permit the distribution to serve
@@ -154,10 +154,10 @@ resource "aws_cloudfront_distribution" "preview" {
 
   viewer_certificate {
     cloudfront_default_certificate = true # use this if you don't have certificate
-    # acm_certificate_arn = aws_acm_certificate.cloudfront_cdn.arn
-    # ssl_support_method = "sni-only"
+    acm_certificate_arn            = aws_acm_certificate.preview.arn
+    ssl_support_method             = "sni-only"
   }
 
 
-  # depends_on = [aws_acm_certificate.cloudfront_cdn]
+  depends_on = [aws_acm_certificate.preview]
 }
