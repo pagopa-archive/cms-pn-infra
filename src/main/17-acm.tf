@@ -1,5 +1,6 @@
 # TLS Certificates
 
+/*
 resource "aws_acm_certificate" "preview" {
   domain_name       = aws_route53_record.preview.fqdn
   validation_method = "DNS"
@@ -8,6 +9,8 @@ resource "aws_acm_certificate" "preview" {
     create_before_destroy = true
   }
 }
+
+*/
 
 resource "aws_acm_certificate" "cms" {
   domain_name       = aws_route53_record.cms.fqdn
@@ -19,8 +22,9 @@ resource "aws_acm_certificate" "cms" {
 }
 
 locals {
-  cert_domain_validation_options = [aws_acm_certificate.preview.domain_validation_options,
-  aws_acm_certificate.cms.domain_validation_options]
+  cert_domain_validation_options = [
+    #aws_acm_certificate.preview.domain_validation_options,
+  aws_acm_certificate.cms.domain_validation_options, ]
 
 
 }
