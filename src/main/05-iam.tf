@@ -161,7 +161,7 @@ resource "aws_iam_policy" "publish_s3" {
           "s3:PutObject"
         ]
         Effect   = "Allow"
-        Resource = format("%s/*", aws_s3_bucket.preview.arn)
+        Resource = format("%s/*", aws_s3_bucket.website_preview)
       },
     ]
   })
