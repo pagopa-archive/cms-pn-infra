@@ -8,8 +8,12 @@ output "strapi_user_secret_key" {
   sensitive = true
 }
 
-output "deploy_role_arn" {
+output "deploy_ecs_role_arn" {
   value = aws_iam_role.deploy_ecs.arn
+}
+
+output "deploy_website_role_arn" {
+  value = aws_iam_role.deploy_website.arn
 }
 
 # Network

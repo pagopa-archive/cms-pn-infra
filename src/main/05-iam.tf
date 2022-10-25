@@ -113,3 +113,61 @@ resource "aws_iam_role_policy_attachment" "deploy_ecs" {
   role       = aws_iam_role.deploy_ecs.name
   policy_arn = aws_iam_policy.deploy_ecs.arn
 }
+
+
+
+## Publish static website
+resource "aws_iam_role" "deploy_website" {
+  name        = "GitHubActionDeployS3"
+  description = "Role to assume to publish static content."
+
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          "Federated" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" : "repo:${var.ecs_fe_image}:*"
+          },
+          "ForAllValues:StringEquals" = {
+            "token.actions.githubusercontent.com:iss" : "https://token.actions.githubusercontent.com",
+            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "publish_s3" {
+  name        = "S3PublishWebSite"
+  path        = "/"
+  description = "Policy to allow to publish website."
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "s3:ListBucket",
+          "s3:PutObject"
+        ]
+        Effect   = "Allow"
+        Resource = format("%s/*", aws_s3_bucket.preview.arn)
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "deploy_website" {
+  role       = aws_iam_role.deploy_website.name
+  policy_arn = aws_iam_policy.publish_s3.arn
+}
