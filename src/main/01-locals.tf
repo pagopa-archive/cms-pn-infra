@@ -3,10 +3,8 @@ locals {
 
   ecs_cluster_name  = format("%s-ecs-cluster", local.project)
   ecs_task_cms_name = format("%s-strapi-task", local.project)
-  ecs_task_fe_name  = format("%s-gatsby-task", local.project)
 
   strapi_container_port = 1337
-  gatsby_container_port = 8000
 
   secret_google_oauth = "google/oauth"
   secret_strapi       = "strapi"
@@ -15,5 +13,9 @@ locals {
     name_cms = "/ecs/strapi"
     name_fe  = "/ecs/gatsby"
   }
+
+  cname_cms     = "cms"
+  cname_preview = "preview"
+
 
 }
