@@ -36,7 +36,7 @@ resource "aws_s3_bucket_versioning" "cms_media" {
   }
 }
 
-data "aws_iam_policy_document" "s3_policy" {
+data "aws_iam_policy_document" "s3_policy_media" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.cms_media.arn}/*"]
@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "s3_policy" {
 
 resource "aws_s3_bucket_policy" "cloudfront" {
   bucket = aws_s3_bucket.cms_media.id
-  policy = data.aws_iam_policy_document.s3_policy.json
+  policy = data.aws_iam_policy_document.s3_policy_media.json
 }
 
 
@@ -67,7 +67,7 @@ resource "aws_s3_bucket" "website_preview" {
   }
 
   tags = {
-    name = "Content images"
+    name = "Asset preview."
   }
 }
 
@@ -79,7 +79,19 @@ resource "aws_s3_bucket_public_access_block" "website_preview" {
   restrict_public_buckets = true
 }
 
+data "aws_iam_policy_document" "s3_policy_preview" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.website_preview.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.main.iam_arn]
+    }
+  }
+}
+
 resource "aws_s3_bucket_policy" "website_preview" {
-  bucket = aws_s3_bucket.cms_media.id
-  policy = data.aws_iam_policy_document.s3_policy.json
+  bucket = aws_s3_bucket.website_preview.id
+  policy = data.aws_iam_policy_document.s3_policy_preview.json
 }

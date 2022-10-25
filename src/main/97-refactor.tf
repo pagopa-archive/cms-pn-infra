@@ -24,11 +24,6 @@ moved {
 }
 
 moved {
-  from = aws_s3_bucket.terraform_states
-  to   = aws_s3_bucket.cms_media
-}
-
-moved {
   from = aws_s3_bucket_versioning.terraform_states
   to   = aws_s3_bucket_versioning.cms_media
 }
@@ -36,4 +31,14 @@ moved {
 moved {
   from = random_integer.bucket_suffix
   to   = random_integer.bucket_cms_media
+}
+
+moved {
+  from = aws_s3_bucket.images
+  to   = aws_s3_bucket.cms_media
+}
+
+moved {
+  from = aws_iam_policy_document.s3_policy
+  to   = aws_iam_policy_document.s3_policy_media
 }
