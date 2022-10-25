@@ -93,9 +93,10 @@ resource "aws_cloudfront_distribution" "preview" {
     }
   }
 
-  enabled         = true # enable CloudFront distribution
-  is_ipv6_enabled = true
-  comment         = "CloudFront distribution preview website."
+  enabled             = true # enable CloudFront distribution
+  is_ipv6_enabled     = true
+  comment             = "CloudFront distribution preview website."
+  default_root_object = "index.html"
 
   #aliases = ["${var.route53_record_name}.${var.domain_name}"]
 
