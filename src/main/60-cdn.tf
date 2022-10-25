@@ -154,8 +154,8 @@ resource "aws_cloudfront_distribution" "preview" {
 
   viewer_certificate {
     cloudfront_default_certificate = true # use this if you don't have certificate
-    #acm_certificate_arn            = aws_acm_certificate.preview.arn
-    ssl_support_method = "sni-only"
+    acm_certificate_arn            = aws_acm_certificate.preview.arn
+    ssl_support_method             = "sni-only"
   }
 
 }
