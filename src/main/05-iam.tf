@@ -158,7 +158,8 @@ resource "aws_iam_policy" "publish_s3" {
       {
         Action = [
           "s3:PutObject",
-          "s3:CopyObject"
+          "s3:GetObject",
+          "s3:PutObjectAcl"
         ]
         Effect   = "Allow"
         Resource = format("%s/*", aws_s3_bucket.website_preview.arn)
