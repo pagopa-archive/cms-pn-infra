@@ -163,6 +163,13 @@ resource "aws_iam_policy" "publish_s3" {
         Effect   = "Allow"
         Resource = format("%s/*", aws_s3_bucket.website_preview.arn)
       },
+      {
+        Action = [
+          "cloudfront:CreateInvalidation"
+        ]
+        Effect   = "Allow"
+        Resource = aws_cloudfront_distribution.preview.arn
+      }
     ]
   })
 }
