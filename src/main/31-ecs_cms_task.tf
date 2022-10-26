@@ -148,7 +148,7 @@ resource "aws_ecs_task_definition" "cms" {
         },
         {
           name  = "AWS_BUCKET_NAME"
-          value = aws_s3_bucket.images.id
+          value = aws_s3_bucket.cms_media.id
         },
         {
           name  = "AWS_REGION"
@@ -156,7 +156,7 @@ resource "aws_ecs_task_definition" "cms" {
         },
         {
           name  = "CDN_BASE_URL"
-          value = format("https://%s", aws_cloudfront_distribution.alb.domain_name)
+          value = format("https://%s", aws_cloudfront_distribution.media.domain_name)
         },
         {
           name  = "BUCKET_PREFIX"

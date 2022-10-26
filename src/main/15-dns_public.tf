@@ -15,11 +15,11 @@ resource "aws_route53_record" "cms" {
 }
 
 
-## Preview load balancer
+## Preview website
 resource "aws_route53_record" "preview" {
   zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "preview"
   type    = "CNAME"
-  records = [module.alb_fe.lb_dns_name]
+  records = [aws_cloudfront_distribution.preview.domain_name]
   ttl     = var.dns_record_ttl
 }
