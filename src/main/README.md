@@ -91,7 +91,7 @@
 | <a name="input_dns_record_ttl"></a> [dns\_record\_ttl](#input\_dns\_record\_ttl) | Dns record ttl (in sec) | `number` | `86400` | no |
 | <a name="input_ecs_cms_image"></a> [ecs\_cms\_image](#input\_ecs\_cms\_image) | cms docker image | `string` | `"ghcr.io/pagopa/cms-pn-backend"` | no |
 | <a name="input_ecs_enable_execute_command"></a> [ecs\_enable\_execute\_command](#input\_ecs\_enable\_execute\_command) | Enable to execute command inside ECS container for debugging. | `bool` | `false` | no |
-| <a name="input_ecs_fe_image"></a> [ecs\_fe\_image](#input\_ecs\_fe\_image) | fe docker image | `string` | `"ghcr.io/pagopa/notifichedigitali.pagopa.it"` | no |
+| <a name="input_ecs_fe_image"></a> [ecs\_fe\_image](#input\_ecs\_fe\_image) | fe docker image | `string` | `"pagopa/notifichedigitali.pagopa.it"` | no |
 | <a name="input_enable_nat_gateway"></a> [enable\_nat\_gateway](#input\_enable\_nat\_gateway) | Enable/Create nat gateway | `bool` | `false` | no |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | Evnironment short. | `string` | `"d"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment | `string` | `"dev"` | no |

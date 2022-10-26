@@ -99,7 +99,7 @@ variable "cms_github_repository" {
 variable "ecs_fe_image" {
   type        = string
   description = "fe docker image"
-  default     = "ghcr.io/pagopa/notifichedigitali.pagopa.it"
+  default     = "pagopa/notifichedigitali.pagopa.it"
 }
 
 variable "ecs_fe_image_version" {
