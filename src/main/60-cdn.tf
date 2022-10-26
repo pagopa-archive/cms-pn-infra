@@ -119,6 +119,13 @@ resource "aws_cloudfront_distribution" "preview" {
     min_ttl                = 0     # min time for objects to live in the distribution cache
     default_ttl            = 3600  # default time for objects to live in the distribution cache
     max_ttl                = 86400 # max time for objects to live in the distribution cache
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = aws_lambda_function.cdn_index.qualified_arn
+      include_body = false
+    }
+
   }
 
   # Cache behavior with precedence 0
@@ -145,7 +152,6 @@ resource "aws_cloudfront_distribution" "preview" {
     viewer_protocol_policy = "redirect-to-https"
   }
   */
-
   restrictions {
     geo_restriction {
       restriction_type = "none"
