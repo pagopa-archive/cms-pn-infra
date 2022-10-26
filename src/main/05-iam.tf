@@ -146,7 +146,7 @@ resource "aws_iam_role" "deploy_website" {
 }
 
 resource "aws_iam_policy" "publish_s3" {
-  name        = "S3PublishWebSite"
+  name        = "PublishWebSite"
   path        = "/"
   description = "Policy to allow to publish website."
 
@@ -157,11 +157,17 @@ resource "aws_iam_policy" "publish_s3" {
     Statement = [
       {
         Action = [
-          "s3:ListBucket",
           "s3:PutObject"
         ]
         Effect   = "Allow"
         Resource = format("%s/*", aws_s3_bucket.website_preview.arn)
+      },
+      {
+        Action = [
+          "s3:ListBucket"
+        ]
+        Effect   = "Allow"
+        Resource = aws_s3_bucket.website_preview.arn
       },
       {
         Action = [
