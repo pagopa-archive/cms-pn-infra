@@ -28,7 +28,12 @@ resource "aws_route53_record" "preview" {
 resource "aws_route53_record" "website" {
   zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
-  type    = "CNAME"
-  records = [aws_cloudfront_distribution.website.domain_name]
+  type    = "A"
   ttl     = var.dns_record_ttl
+
+  alias {
+    name                   = aws_cloudfront_distribution.website.domain_name
+    zone_id                = aws_cloudfront_distribution.website.zone_id
+    evaluate_target_health = true
+  }
 }
