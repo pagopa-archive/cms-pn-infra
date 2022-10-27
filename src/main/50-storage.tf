@@ -95,3 +95,9 @@ resource "aws_s3_bucket_policy" "website_preview" {
   bucket = aws_s3_bucket.website_preview.id
   policy = data.aws_iam_policy_document.s3_policy_preview.json
 }
+
+module "website_bucket" {
+  source                                = "./modules/private_bucket"
+  bucket_prefix                         = format("%s-website", local.project)
+  cloudfront_origin_access_identity_arn = aws_cloudfront_origin_access_identity.main.iam_arn
+}
