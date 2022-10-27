@@ -81,11 +81,15 @@ output "image_s3_bucket" {
   value = aws_s3_bucket.cms_media.bucket
 }
 
-output "image_s3_domain" {
-  value = aws_s3_bucket.cms_media.bucket_domain_name
+output "website_s3_bucket" {
+  value = module.website_bucket
 }
 
 ## CDN
-output "cdn_domain_name" {
+output "cdn_media_domain_name" {
   value = aws_cloudfront_distribution.media.domain_name
+}
+
+output "cdn_website_domain_name" {
+  value = aws_cloudfront_distribution.website.domain_name
 }
