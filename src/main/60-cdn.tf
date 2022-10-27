@@ -145,7 +145,7 @@ resource "aws_cloudfront_distribution" "preview" {
 resource "aws_cloudfront_distribution" "website" {
 
   origin {
-    domain_name = module.website_bucket.bucket_regional_domain_name
+    domain_name = module.website_bucket.regional_domain_name
     origin_id   = aws_s3_bucket.website_preview.bucket
 
     s3_origin_config {
@@ -164,7 +164,7 @@ resource "aws_cloudfront_distribution" "website" {
     # HTTPS requests we permit the distribution to serve
     allowed_methods  = ["GET", "HEAD", "OPTIONS", ]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = module.website_bucket.bucket_name
+    target_origin_id = module.website_bucket.name
 
 
     forwarded_values {
