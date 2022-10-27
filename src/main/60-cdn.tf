@@ -120,10 +120,9 @@ resource "aws_cloudfront_distribution" "preview" {
     default_ttl            = 3600  # default time for objects to live in the distribution cache
     max_ttl                = 86400 # max time for objects to live in the distribution cache
 
-    lambda_function_association {
+    function_association {
       event_type   = "viewer-request"
-      lambda_arn   = aws_lambda_function.cdn_index.qualified_arn
-      include_body = false
+      function_arn = aws_cloudfront_function.rewrite_uri.arn
     }
 
   }
