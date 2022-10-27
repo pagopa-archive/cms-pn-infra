@@ -86,6 +86,10 @@ output "website_s3_bucket" {
 }
 
 ## CDN
-output "cdn_domain_name" {
+output "cdn_media_domain_name" {
+  value = aws_cloudfront_distribution.media.domain_name
+}
+
+output "cdn_website_domain_name" {
   value = aws_cloudfront_distribution.media.domain_name
 }
