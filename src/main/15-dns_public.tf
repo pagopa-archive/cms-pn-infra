@@ -23,3 +23,15 @@ resource "aws_route53_record" "preview" {
   records = [aws_cloudfront_distribution.preview.domain_name]
   ttl     = var.dns_record_ttl
 }
+
+## Public website
+resource "aws_route53_record" "website" {
+  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  name    = ""
+  type    = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.website.domain_name
+    zone_id                = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
+}
