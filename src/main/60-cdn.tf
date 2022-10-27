@@ -155,7 +155,7 @@ resource "aws_cloudfront_distribution" "website" {
 
   enabled             = true # enable CloudFront distribution
   is_ipv6_enabled     = true
-  comment             = "CloudFront distribution for the status website."
+  comment             = "CloudFront distribution for the static website."
   default_root_object = "index.html"
 
   #aliases = [join(".", [local.cname_preview, keys(var.public_dns_zones)[0]]), ]
