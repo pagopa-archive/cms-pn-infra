@@ -4,7 +4,7 @@ resource "random_integer" "this" {
 }
 
 locals {
-  bucket_name = format(var.bucket_prefix, random_integer.this.result)
+  bucket_name = join("-", [var.bucket_prefix, random_integer.this.result])
 }
 
 resource "aws_s3_bucket" "this" {
