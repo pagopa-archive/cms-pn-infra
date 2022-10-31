@@ -133,7 +133,7 @@ resource "aws_iam_role" "deploy_website" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" : "repo:${var.ecs_fe_image}:*"
+            "token.actions.githubusercontent.com:sub" : "repo:${var.fe_github_repository}:*"
           },
           "ForAllValues:StringEquals" = {
             "token.actions.githubusercontent.com:iss" : "https://token.actions.githubusercontent.com",

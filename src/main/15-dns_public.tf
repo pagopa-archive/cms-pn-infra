@@ -16,6 +16,7 @@ resource "aws_route53_record" "cms" {
 
 
 ## Preview website
+/*
 resource "aws_route53_record" "preview" {
   zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "preview"
@@ -23,6 +24,7 @@ resource "aws_route53_record" "preview" {
   records = [aws_cloudfront_distribution.preview.domain_name]
   ttl     = var.dns_record_ttl
 }
+*/
 
 ## Public website
 resource "aws_route53_record" "website" {

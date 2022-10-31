@@ -102,15 +102,10 @@ variable "cms_github_repository" {
   default     = "pagopa/cms-pn-backend"
 }
 
-variable "ecs_fe_image" {
+variable "fe_github_repository" {
   type        = string
-  description = "fe docker image"
+  description = "Fe repository"
   default     = "pagopa/notifichedigitali.pagopa.it"
-}
-
-variable "ecs_fe_image_version" {
-  type        = string
-  description = "Fe image to deploy"
 }
 
 variable "tags" {

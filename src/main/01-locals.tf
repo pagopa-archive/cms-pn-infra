@@ -16,6 +16,4 @@ locals {
 
   cname_cms     = "cms"
   cname_preview = "preview"
-
-
 }
