@@ -21,7 +21,7 @@ resource "aws_acm_certificate" "cms" {
 locals {
   cert_domain_validation_options = [
     aws_acm_certificate.cms.domain_validation_options,
-    aws_acm_certificate.website.domain_validation_options, ]
+  aws_acm_certificate.website.domain_validation_options, ]
 }
 
 resource "aws_route53_record" "cert_validation" {
