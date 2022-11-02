@@ -30,6 +30,7 @@ resource "aws_iam_policy" "task_cms_secretmanager" {
         ],
         "Resource" : [
           "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_google_oauth}*",
+          "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${local.secret_github}*",
         ]
       }
     ]
@@ -91,7 +92,15 @@ resource "aws_ecs_task_definition" "cms" {
         {
           name      = "GOOGLE_OAUTH_REDIRECT_URI",
           valueFrom = "${data.aws_secretsmanager_secret.google_oauth.arn}:GOOGLE_OAUTH_REDIRECT_URI::"
-        }
+        },
+        {
+          name      = "GITHUB_TOKEN",
+          valueFrom = "${data.aws_secretsmanager_secret.github.arn}:GITHUB_TOKEN::"
+        },
+        {
+          name      = "GITHUB_WEBHOOK",
+          valueFrom = "${data.aws_secretsmanager_secret.github.arn}:GITHUB_WEBHOOK::"
+        },
       ]
       environment = [
         {

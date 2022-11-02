@@ -8,6 +8,7 @@ locals {
 
   secret_google_oauth = "google/oauth"
   secret_strapi       = "strapi"
+  secret_github       = "github"
 
   logs = {
     name_cms = "/ecs/strapi"
