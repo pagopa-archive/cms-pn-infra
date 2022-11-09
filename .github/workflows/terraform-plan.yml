@@ -15,7 +15,6 @@ on:
 
 env:
  AWS_REGION: eu-south-1
- IAM_ROLE: arn:aws:iam::516175876821:role/GitHubActionIACRole
 
 defaults:
   run:
