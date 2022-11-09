@@ -30,8 +30,8 @@ jobs:
   terraform:
     strategy:
       matrix:
-        environment: ['dev']
-    environment: dev
+        environment: ['dev', 'prod']
+    environment: ${{ matrix.environment }}
     name: "terraform-plan"
     runs-on: ubuntu-latest
     steps:
