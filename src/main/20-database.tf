@@ -53,6 +53,5 @@ module "aurora_postgresql" {
   instance_class = "db.r5.large"
   instances = {
     one = {}
-    two = {}
   }
 }
