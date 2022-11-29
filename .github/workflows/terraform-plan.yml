@@ -15,7 +15,6 @@ on:
 
 env:
  AWS_REGION: eu-south-1
- IAM_ROLE: arn:aws:iam::516175876821:role/GitHubActionIACRole
 
 defaults:
   run:
@@ -31,6 +30,7 @@ jobs:
     strategy:
       matrix:
         environment: ['dev']
+    environment: ${{ matrix.environment }}
     name: "terraform-plan"
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ env.IAM_ROLE }}
+          role-to-assume: ${{ secrets.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
       
       - name: Read terraform version 
