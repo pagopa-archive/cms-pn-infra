@@ -1,15 +1,17 @@
 env_short   = "d"
 environment = "dev"
-aws_region  = "eu-south-1"
+aws_region  = "eu-central-1"
 
 # Notifiche digitali.
 app_name = "pn"
+
 
 public_dns_zones = {
   "poc.pn.pagopa.it" = {
     comment = "Notifiche digitali public dns zone DEV."
   }
 }
+
 
 dns_record_ttl = 300 # 5 min
 

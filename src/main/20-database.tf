@@ -42,15 +42,14 @@ module "aurora_postgresql" {
   db_parameter_group_name         = aws_db_parameter_group.postgresql14.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.postgresql14.id
 
-  /*
   # Serverless instance class is not available in Milan.
   serverlessv2_scaling_configuration = {
-    min_capacity = 1
-    max_capacity = 2
+    min_capacity = 2
+    max_capacity = 10
   }
-  */
 
-  instance_class = "db.r5.large"
+  instance_class = "db.serverless"
+
   instances = {
     one = {}
   }

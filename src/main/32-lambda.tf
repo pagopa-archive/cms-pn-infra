@@ -1,5 +1,4 @@
 resource "aws_cloudfront_function" "rewrite_uri" {
-  #name    = "rewrite-request-${random_id.id.hex}"
   name    = "rewrite-request"
   runtime = "cloudfront-js-1.0"
   publish = true
