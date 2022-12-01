@@ -21,7 +21,8 @@ resource "aws_acm_certificate" "cms" {
 locals {
   cert_domain_validation_options = [
     aws_acm_certificate.cms.domain_validation_options,
-  aws_acm_certificate.website.domain_validation_options, ]
+    aws_acm_certificate.website.domain_validation_options,
+  ]
 }
 
 resource "aws_route53_record" "cert_validation" {
@@ -39,5 +40,8 @@ resource "aws_route53_record" "cert_validation" {
   ttl             = 3600 # 1h
   type            = each.value.type
   zone_id         = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  depends_on = [
+    aws_acm_certificate.cms,
+  ]
 }
 
