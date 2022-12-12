@@ -23,11 +23,11 @@ output "vpc_cidr" {
 
 # DNS Zone
 output "public_dns_zone_name" {
-  value = module.dns_zone.route53_zone_name
+  value = try(module.dns_zone[0].route53_zone_name, null)
 }
 
 output "public_dns_servers" {
-  value = module.dns_zone.route53_zone_name_servers
+  value = try(module.dns_zone[0].route53_zone_name_servers, null)
 }
 
 /*
@@ -37,7 +37,7 @@ output "preview_fqdn" {
 */
 
 output "cms_fqdn" {
-  value = aws_route53_record.cms.fqdn
+  value = try(aws_route53_record.cms[0].fqdn, null)
 }
 
 ## Database

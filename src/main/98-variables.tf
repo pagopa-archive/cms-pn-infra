@@ -65,6 +65,12 @@ variable "dns_record_ttl" {
   default     = 86400 # 24 hours
 }
 
+variable "create_cert_validation_records" {
+  type        = bool
+  description = "Create dns certification validation records."
+  default     = true
+}
+
 ## ECS
 variable "logs_tasks_retention" {
   type        = number

@@ -1,5 +1,6 @@
 # TLS Certificates
 resource "aws_acm_certificate" "website" {
+  count             = var.public_dns_zones == null ? 0 : 1
   domain_name       = keys(var.public_dns_zones)[0]
   validation_method = "DNS"
   provider          = aws.us-east-1
@@ -10,7 +11,8 @@ resource "aws_acm_certificate" "website" {
 }
 
 resource "aws_acm_certificate" "cms" {
-  domain_name       = aws_route53_record.cms.fqdn
+  count             = var.public_dns_zones == null ? 0 : 1
+  domain_name       = aws_route53_record.cms[0].fqdn
   validation_method = "DNS"
 
   lifecycle {
@@ -19,10 +21,10 @@ resource "aws_acm_certificate" "cms" {
 }
 
 locals {
-  cert_domain_validation_options = [
-    aws_acm_certificate.cms.domain_validation_options,
-    aws_acm_certificate.website.domain_validation_options,
-  ]
+  cert_domain_validation_options = var.public_dns_zones != null ? [
+    aws_acm_certificate.cms[0].domain_validation_options,
+    aws_acm_certificate.website[0].domain_validation_options,
+  ] : []
 }
 
 resource "aws_route53_record" "cert_validation" {
@@ -39,9 +41,10 @@ resource "aws_route53_record" "cert_validation" {
   records         = [each.value.record]
   ttl             = 3600 # 1h
   type            = each.value.type
-  zone_id         = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  zone_id         = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   depends_on = [
     aws_acm_certificate.cms,
+    aws_acm_certificate.website,
   ]
 }
 
