@@ -49,7 +49,7 @@ resource "aws_s3_bucket_policy" "cloudfront" {
 module "website_bucket" {
   source        = "./modules/private_bucket"
   bucket_prefix = format("%s-website", local.project)
-  #cloudfront_origin_access_identity_arn = aws_cloudfront_origin_access_identity.main.iam_arn
+  cloudfront_origin_access_identity_arn = aws_cloudfront_origin_access_identity.main.iam_arn
 
   depends_on = [
     aws_cloudfront_origin_access_identity.main
