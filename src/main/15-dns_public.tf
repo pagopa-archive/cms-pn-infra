@@ -1,5 +1,6 @@
 # DNS Zone
 module "dns_zone" {
+  count   = var.public_dns_zones == null ? 0 : 1
   source  = "terraform-aws-modules/route53/aws//modules/zones"
   version = "~> 2.0"
 
@@ -7,7 +8,8 @@ module "dns_zone" {
 }
 
 resource "aws_route53_record" "cms" {
-  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  count   = var.public_dns_zones == null ? 0 : 1
+  zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "cms"
   type    = "CNAME"
   records = [module.alb_cms.lb_dns_name]
@@ -28,7 +30,8 @@ resource "aws_route53_record" "preview" {
 
 ## Public website
 resource "aws_route53_record" "website" {
-  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  count   = var.public_dns_zones == null ? 0 : 1
+  zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
   type    = "A"
   alias {

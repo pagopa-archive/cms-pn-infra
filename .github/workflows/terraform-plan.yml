@@ -3,18 +3,12 @@ name: "Terraform-Plan"
 on:
   push:
     branches:
-      - "main"
-      - "master"
+      - '**'        # matches every branch
+      - '!main'     # excludes main
+      - '!master'     # excludes master
     paths:
       - 'src/main/**'
       - '.github/workflows/*.yml'
-  pull_request:
-    paths:
-      - 'src/main/**'
-      - '.github/workflows/*.yml'
-
-env:
- AWS_REGION: eu-south-1
 
 defaults:
   run:
@@ -29,16 +23,19 @@ jobs:
   terraform:
     strategy:
       matrix:
-        environment: ['dev']
-    environment: ${{ matrix.environment }}
+        environment: [dev, prod]
     name: "terraform-plan"
     runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
+     
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        env:
+          AWS_REGION: eu-central-1
+        uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838
         with:
           role-to-assume: ${{ secrets.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
@@ -49,7 +46,7 @@ jobs:
           echo "TERRAFORM_VERSION=`cat ../.terraform-version`" >> $GITHUB_ENV
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 

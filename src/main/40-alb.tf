@@ -53,7 +53,9 @@ module "alb_cms" {
   http_tcp_listeners = [{
     port        = 80
     protocol    = "HTTP"
-    action_type = "redirect"
+    action_type = var.public_dns_zones == null ? "forward" : "redirect"
+
+
     redirect = {
       port        = "443"
       protocol    = "HTTPS"
@@ -63,12 +65,12 @@ module "alb_cms" {
   ]
 
 
-  https_listeners = [
+  https_listeners = var.public_dns_zones == null ? [] : [
     {
       port               = 443
       protocol           = "HTTPS"
       target_group_index = 0
-      certificate_arn    = aws_acm_certificate.cms.arn
+      certificate_arn    = aws_acm_certificate.cms[0].arn
     },
   ]
 

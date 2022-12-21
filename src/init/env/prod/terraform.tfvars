@@ -5,6 +5,6 @@ tags = {
   "Environment" = "Prod"
   "Owner"       = "Frontend Web"
   "Scope"       = "tfstate"
-  "Source"      = "https://github.com/pagopa/cms-infra"
+  "Source"      = "https://github.com/pagopa/cms-pn-infra"
   "name"        = "S3 Remote Terraform State Store"
 }
