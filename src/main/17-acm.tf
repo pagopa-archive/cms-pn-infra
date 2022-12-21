@@ -47,4 +47,3 @@ resource "aws_route53_record" "cert_validation" {
     aws_acm_certificate.website,
   ]
 }
-
