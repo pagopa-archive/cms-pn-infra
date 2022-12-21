@@ -4,10 +4,10 @@ description: "Run terraform apply"
 inputs:
   env:
     required: true
-    type: string
+    description: "AWS environment."
   working-directory:
     required: true
-    type: string
+    description: "Direcectory with terraform code."
 
 runs:
   using: "composite"
