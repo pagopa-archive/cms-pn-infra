@@ -34,14 +34,9 @@ resource "aws_route53_record" "website" {
   zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
   type    = "A"
-  records = [aws_globalaccelerator_accelerator.alb_fe_ga[0].ip_sets[0].ip_addresses]
+  records = aws_globalaccelerator_accelerator.alb_fe_ga[0].ip_sets[0].ip_addresses
 
   ttl = var.dns_record_ttl
-
-  depends_on = [
-    aws_globalaccelerator_accelerator.alb_fe_ga
-  ]
-
 }
 
 resource "aws_route53_record" "www" {
