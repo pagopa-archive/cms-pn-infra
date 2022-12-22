@@ -34,7 +34,7 @@ locals {
   cert_domain_validation_options = var.public_dns_zones != null ? [
     aws_acm_certificate.cms[0].domain_validation_options,
     aws_acm_certificate.website[0].domain_validation_options,
-    aws_acm_certificate.www[0].domain_validation_options,
+    #aws_acm_certificate.www[0].domain_validation_options,
   ] : []
 }
 
