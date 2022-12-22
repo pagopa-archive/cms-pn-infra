@@ -114,6 +114,18 @@ variable "fe_github_repository" {
   default     = "pagopa/notifichedigitali.pagopa.it"
 }
 
+variable "db_backup_retention_period" {
+  type        = number
+  description = "The days to retain backups for. Default 7"
+  default     = 7
+}
+
+variable "db_preferred_backup_window" {
+  type        = string
+  description = "The daily time range during which automated backups are created."
+  default     = "07:00-09:00"
+}
+
 variable "tags" {
   type = map(any)
   default = {

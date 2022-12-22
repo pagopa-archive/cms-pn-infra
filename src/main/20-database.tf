@@ -50,6 +50,9 @@ module "aurora_postgresql" {
 
   instance_class = "db.serverless"
 
+  backup_retention_period = var.db_backup_retention_period
+  preferred_backup_window = var.db_preferred_backup_window
+
   instances = {
     one = {}
   }
