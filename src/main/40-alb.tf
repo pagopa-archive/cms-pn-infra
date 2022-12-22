@@ -99,3 +99,47 @@ module "alb_cms" {
 
   tags = { Name : format("%s-alb", local.project) }
 }
+
+
+module "alb_fe" {
+  count   = var.public_dns_zones != null ? 1 : 0
+  source  = "terraform-aws-modules/alb/aws"
+  version = "6.0"
+
+  name = "fe-alb"
+
+  load_balancer_type = "application"
+
+  security_groups = [aws_security_group.alb.id]
+
+  vpc_id                           = module.vpc.vpc_id
+  subnets                          = module.vpc.public_subnets
+  enable_cross_zone_load_balancing = "true"
+
+  internal = false
+
+  https_listeners = var.public_dns_zones == null ? [] : [
+    {
+      port               = 443
+      protocol           = "HTTPS"
+      target_group_index = 0
+      certificate_arn    = aws_acm_certificate.www[0].arn
+    },
+  ]
+
+  https_listener_rules = [
+    {
+      https_listener_index = 0
+      priority             = 1
+
+      actions = [{
+        type        = "redirect"
+        status_code = "HTTP_301"
+        host        = format("www.%s", keys(var.public_dns_zones)[0])
+        protocol    = "HTTPS"
+      }]
+    },
+  ]
+
+  tags = { Name : "fe-alb" }
+}
