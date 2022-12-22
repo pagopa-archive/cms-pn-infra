@@ -120,10 +120,9 @@ module "alb_fe" {
 
   https_listeners = var.public_dns_zones == null ? [] : [
     {
-      port               = 443
-      protocol           = "HTTPS"
-      target_group_index = 0
-      certificate_arn    = aws_acm_certificate.www[0].arn
+      port            = 443
+      protocol        = "HTTPS"
+      certificate_arn = aws_acm_certificate.www[0].arn
     },
   ]
 
