@@ -118,13 +118,12 @@ module "alb_fe" {
 
   internal = false
 
-  target_groups = []
-
   https_listeners = var.public_dns_zones == null ? [] : [
     {
       port            = 443
       protocol        = "HTTPS"
       certificate_arn = aws_acm_certificate.www[0].arn
+
       default_action = {
         order = 1
         type  = "redirect"
