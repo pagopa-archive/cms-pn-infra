@@ -145,7 +145,7 @@ resource "aws_globalaccelerator_accelerator" "alb_fe_ga" {
 
 }
 
-resource "aws_globalaccelerator_listener" "alb_ga_fe_listener" {
+resource "aws_globalaccelerator_listener" "alb_fe_ga_listener" {
   count           = var.public_dns_zones != null ? 1 : 0
   accelerator_arn = aws_globalaccelerator_accelerator.alb_fe_ga[0].id
   client_affinity = "SOURCE_IP"
