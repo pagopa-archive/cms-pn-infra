@@ -115,6 +115,7 @@ module "alb_fe" {
   vpc_id                           = module.vpc.vpc_id
   subnets                          = module.vpc.public_subnets
   enable_cross_zone_load_balancing = "true"
+  target_group_arn                 = null
 
   internal = false
 
