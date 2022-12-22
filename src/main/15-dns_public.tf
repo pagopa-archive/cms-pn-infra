@@ -38,6 +38,10 @@ resource "aws_route53_record" "website" {
 
   ttl = var.dns_record_ttl
 
+  depends_on = [
+    aws_globalaccelerator_accelerator.alb_fe_ga
+  ]
+
 }
 
 resource "aws_route53_record" "www" {
