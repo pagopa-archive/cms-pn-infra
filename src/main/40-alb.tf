@@ -61,8 +61,7 @@ module "alb_cms" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     },
-    },
-  ]
+  }, ]
 
 
   https_listeners = var.public_dns_zones == null ? [] : [
@@ -117,6 +116,19 @@ module "alb_fe" {
   enable_cross_zone_load_balancing = "true"
 
   internal = false
+
+  http_tcp_listeners = [{
+    port        = 80
+    protocol    = "HTTP"
+    action_type = "redirect"
+
+
+    redirect = {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    },
+  }, ]
 
   https_listeners = var.public_dns_zones == null ? [] : [
     {
