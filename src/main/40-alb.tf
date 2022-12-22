@@ -122,7 +122,7 @@ module "alb_fe" {
     {
       port            = 443
       protocol        = "HTTPS"
-      certificate_arn = aws_acm_certificate.www[0].arn
+      certificate_arn = aws_acm_certificate.website[0].arn
       action_type     = "redirect"
       redirect = {
         host        = format("www.%s", keys(var.public_dns_zones)[0])

@@ -3,7 +3,6 @@ resource "aws_acm_certificate" "website" {
   count             = var.public_dns_zones == null ? 0 : 1
   domain_name       = keys(var.public_dns_zones)[0]
   validation_method = "DNS"
-  provider          = aws.us-east-1
 
   lifecycle {
     create_before_destroy = true
@@ -21,13 +20,16 @@ resource "aws_acm_certificate" "cms" {
 }
 
 resource "aws_acm_certificate" "www" {
-  count             = var.public_dns_zones == null ? 0 : 1
-  domain_name       = aws_route53_record.www[0].fqdn
+  count = var.public_dns_zones == null ? 0 : 1
+  # domain_name       =  aws_route53_record.www[0].fqdn this is a cycle and it's not gonna to work.                  
+  domain_name       = format("www.%s", keys(var.public_dns_zones)[0])
   validation_method = "DNS"
 
   lifecycle {
     create_before_destroy = true
   }
+
+  provider = aws.us-east-1
 }
 
 locals {
