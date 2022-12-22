@@ -167,7 +167,7 @@ resource "aws_globalaccelerator_endpoint_group" "alb_fe_ga_endpoint" {
   listener_arn = aws_globalaccelerator_listener.alb_fe_ga_listener[0].id
 
   endpoint_configuration {
-    endpoint_id = module.alb_fe[0].arn
+    endpoint_id = module.alb_fe[0].lb_arn
     weight      = 100
   }
 }
