@@ -123,20 +123,23 @@ module "alb_fe" {
       port            = 443
       protocol        = "HTTPS"
       certificate_arn = aws_acm_certificate.www[0].arn
-
-      default_action = {
-        order = 1
-        type  = "redirect"
-        redirect = {
-          host        = format("www.%s", keys(var.public_dns_zones)[0])
-          protocol    = "HTTPS"
-          status_code = "HTTP_301"
-        }
-      }
-
+      default_action  = null
     },
   ]
 
+  https_listener_rules = [
+    {
+      https_listener_index = 0
+      priority             = 1
+
+      actions = [{
+        type        = "redirect"
+        status_code = "HTTP_301"
+        host        = format("www.%s", keys(var.public_dns_zones)[0])
+        protocol    = "HTTPS"
+      }]
+    },
+  ]
 
   tags = { Name : "fe-alb" }
 }
