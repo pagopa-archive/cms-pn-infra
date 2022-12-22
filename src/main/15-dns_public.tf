@@ -28,18 +28,16 @@ resource "aws_route53_record" "preview" {
 }
 */
 
-## Public website
+## Public website (apex record.)
 resource "aws_route53_record" "website" {
   count   = var.public_dns_zones == null ? 0 : 1
   zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
   type    = "A"
+  records = [aws_globalaccelerator_accelerator.alb_fe_ga[0].ip_sets.ip_addresses]
 
-  alias {
-    name                   = aws_cloudfront_distribution.website.domain_name
-    zone_id                = "Z2FDTNDATAQYW2"
-    evaluate_target_health = false
-  }
+  ttl = var.dns_record_ttl
+
 }
 
 resource "aws_route53_record" "www" {

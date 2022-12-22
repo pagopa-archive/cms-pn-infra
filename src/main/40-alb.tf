@@ -135,3 +135,39 @@ module "alb_fe" {
 
   tags = { Name : "fe-alb" }
 }
+
+# global accellerator
+resource "aws_globalaccelerator_accelerator" "alb_fe_ga" {
+  count           = var.public_dns_zones != null ? 1 : 0
+  name            = format("alb-fe-%s-ga", var.env_short)
+  ip_address_type = "IPV4"
+  enabled         = true
+
+}
+
+resource "aws_globalaccelerator_listener" "alb_ga_fe_listener" {
+  count           = var.public_dns_zones != null ? 1 : 0
+  accelerator_arn = aws_globalaccelerator_accelerator.alb_fe_ga[0].id
+  client_affinity = "SOURCE_IP"
+  protocol        = "TCP"
+
+  port_range {
+    from_port = 443
+    to_port   = 443
+  }
+
+  port_range {
+    from_port = 80
+    to_port   = 80
+  }
+}
+
+resource "aws_globalaccelerator_endpoint_group" "alb_fe_ga_endpoint" {
+  count        = var.public_dns_zones != null ? 1 : 0
+  listener_arn = aws_globalaccelerator_listener.alb_fe_ga_listener[0].id
+
+  endpoint_configuration {
+    endpoint_id = module.alb_fe[0].arn
+    weight      = 100
+  }
+}
