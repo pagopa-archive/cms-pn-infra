@@ -34,9 +34,26 @@ resource "aws_route53_record" "website" {
   zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
   type    = "A"
+  ttl     = var.dns_record_ttl
+
   alias {
     name                   = aws_cloudfront_distribution.website.domain_name
     zone_id                = "Z2FDTNDATAQYW2"
     evaluate_target_health = false
   }
+}
+
+resource "aws_route53_record" "www" {
+  count   = var.public_dns_zones == null ? 0 : 1
+  zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  name    = "www"
+  type    = "CNAME"
+  ttl     = var.dns_record_ttl
+
+  weighted_routing_policy {
+    weight = 90
+  }
+
+  set_identifier = "live"
+  records        = [aws_cloudfront_distribution.website.domain_name]
 }
