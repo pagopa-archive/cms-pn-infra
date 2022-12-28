@@ -129,7 +129,7 @@ variable "db_preferred_backup_window" {
 variable "db_snapshot_identifier" {
   type        = string
   description = "Specifies whether or not to create a cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot."
-
+  default     = null
 }
 
 variable "tags" {

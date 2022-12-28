@@ -69,11 +69,11 @@
 | [aws_s3_bucket_versioning.cms_media](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_security_group.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [random_id.db_instance](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [random_integer.bucket_cms_media](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/integer) | resource |
 | [random_password.cms_api_keys](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.cms_api_token_salt](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.jwt_secrets](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
+| [random_string.db_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_ec2_managed_prefix_list.cloudfront](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ec2_managed_prefix_list) | data source |
@@ -89,7 +89,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_db_snapshot_identifier"></a> [db\_snapshot\_identifier](#input\_db\_snapshot\_identifier) | Specifies whether or not to create a cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot. | `string` | n/a | yes |
 | <a name="input_ecs_cms_image_version"></a> [ecs\_cms\_image\_version](#input\_ecs\_cms\_image\_version) | Cms image to deploy | `string` | n/a | yes |
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | App name. CMS | `string` | `"cms"` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region to create resources. Default Milan | `string` | `"eu-south-1"` | no |
@@ -97,6 +96,7 @@
 | <a name="input_create_cert_validation_records"></a> [create\_cert\_validation\_records](#input\_create\_cert\_validation\_records) | Create dns certification validation records. | `bool` | `true` | no |
 | <a name="input_db_backup_retention_period"></a> [db\_backup\_retention\_period](#input\_db\_backup\_retention\_period) | The days to retain backups for. Default 7 | `number` | `7` | no |
 | <a name="input_db_preferred_backup_window"></a> [db\_preferred\_backup\_window](#input\_db\_preferred\_backup\_window) | The daily time range during which automated backups are created. | `string` | `"07:00-09:00"` | no |
+| <a name="input_db_snapshot_identifier"></a> [db\_snapshot\_identifier](#input\_db\_snapshot\_identifier) | Specifies whether or not to create a cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot. | `string` | `null` | no |
 | <a name="input_dns_record_ttl"></a> [dns\_record\_ttl](#input\_dns\_record\_ttl) | Dns record ttl (in sec) | `number` | `86400` | no |
 | <a name="input_ecs_cms_image"></a> [ecs\_cms\_image](#input\_ecs\_cms\_image) | cms docker image | `string` | `"ghcr.io/pagopa/cms-pn-backend"` | no |
 | <a name="input_ecs_enable_execute_command"></a> [ecs\_enable\_execute\_command](#input\_ecs\_enable\_execute\_command) | Enable to execute command inside ECS container for debugging. | `bool` | `false` | no |
@@ -126,6 +126,11 @@
 | <a name="output_db_cluster_master_password"></a> [db\_cluster\_master\_password](#output\_db\_cluster\_master\_password) | n/a |
 | <a name="output_db_cluster_master_username"></a> [db\_cluster\_master\_username](#output\_db\_cluster\_master\_username) | n/a |
 | <a name="output_db_cluster_port"></a> [db\_cluster\_port](#output\_db\_cluster\_port) | n/a |
+| <a name="output_db_cluster_restore_database_name"></a> [db\_cluster\_restore\_database\_name](#output\_db\_cluster\_restore\_database\_name) | ## Restore |
+| <a name="output_db_cluster_restore_endpoint"></a> [db\_cluster\_restore\_endpoint](#output\_db\_cluster\_restore\_endpoint) | n/a |
+| <a name="output_db_cluster_restore_master_password"></a> [db\_cluster\_restore\_master\_password](#output\_db\_cluster\_restore\_master\_password) | n/a |
+| <a name="output_db_cluster_restore_master_username"></a> [db\_cluster\_restore\_master\_username](#output\_db\_cluster\_restore\_master\_username) | n/a |
+| <a name="output_db_cluster_restore_port"></a> [db\_cluster\_restore\_port](#output\_db\_cluster\_restore\_port) | n/a |
 | <a name="output_deploy_ecs_role_arn"></a> [deploy\_ecs\_role\_arn](#output\_deploy\_ecs\_role\_arn) | n/a |
 | <a name="output_deploy_website_role_arn"></a> [deploy\_website\_role\_arn](#output\_deploy\_website\_role\_arn) | n/a |
 | <a name="output_image_s3_bucket"></a> [image\_s3\_bucket](#output\_image\_s3\_bucket) | # Storage |

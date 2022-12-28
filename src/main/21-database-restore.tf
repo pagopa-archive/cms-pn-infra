@@ -1,15 +1,16 @@
-resource "random_id" "db_instance" {
-  count       = var.db_snapshot_identifier != null ? 1 : 0
-  byte_length = 4
+resource "random_string" "db_suffix" {
+  count   = var.db_snapshot_identifier != null ? 1 : 0
+  length  = 3
+  special = false
+  upper   = false
 }
-
 
 module "aurora_postgresql_restore" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "7.3.0"
   count   = var.db_snapshot_identifier != null ? 1 : 0
 
-  name                   = format("%s-postgresql-%s", local.project, random_id.db_instance[0].id)
+  name                   = format("%s-postgresql-%s", local.project, random_string.db_suffix[0].id)
   engine                 = data.aws_rds_engine_version.postgresql.engine
   engine_mode            = "provisioned"
   engine_version         = data.aws_rds_engine_version.postgresql.version
