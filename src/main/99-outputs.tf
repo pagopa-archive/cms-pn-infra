@@ -63,6 +63,29 @@ output "db_cluster_master_password" {
   sensitive = true
 }
 
+### Restore
+output "db_cluster_restore_database_name" {
+  value = try(module.aurora_postgresql_restore[0].cluster_database_name, null)
+}
+
+output "db_cluster_restore_endpoint" {
+  value = try(module.aurora_postgresql_restore[0].cluster_endpoint, null)
+}
+
+output "db_cluster_restore_port" {
+  value = try(module.aurora_postgresql_restore[0].cluster_port, null)
+}
+
+output "db_cluster_restore_master_username" {
+  value     = try(module.aurora_postgresql_restore[0].cluster_master_username, null)
+  sensitive = true
+}
+
+output "db_cluster_restore_master_password" {
+  value     = try(module.aurora_postgresql_restore[0].cluster_master_password, null)
+  sensitive = true
+}
+
 
 ## Alb
 output "alb_cms_dns_name" {

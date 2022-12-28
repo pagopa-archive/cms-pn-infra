@@ -126,6 +126,12 @@ variable "db_preferred_backup_window" {
   default     = "07:00-09:00"
 }
 
+variable "db_snapshot_identifier" {
+  type        = string
+  description = "Specifies whether or not to create a cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot."
+  default     = null
+}
+
 variable "tags" {
   type = map(any)
   default = {
