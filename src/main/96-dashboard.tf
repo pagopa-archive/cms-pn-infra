@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = format("pn-%s-dashboard-v1.0", var.env_short)
+  dashboard_name = format("pn-%s-dashboard-v1", var.env_short)
 
   dashboard_body = templatefile("${path.module}/dashboards/main.json",
     {
