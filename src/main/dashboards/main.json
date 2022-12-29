@@ -22,7 +22,7 @@
                 "metrics": [
                     [ "AWS/CloudFront", "Requests", "Region", "Global", "DistributionId", "${cf_distribution_id}", { "region": "us-east-1" } ]
                 ],
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "title": "# Requests"
             }
         },
@@ -35,11 +35,11 @@
             "properties": {
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "metrics": [
-                    [ "AWS/CloudFront", "TotalErrorRate", "Region", "Global", "DistributionId", "cf_distribution_id", { "region": "us-east-1" } ],
+                    [ "AWS/CloudFront", "TotalErrorRate", "Region", "Global", "DistributionId", "${cf_distribution_id}", { "region": "us-east-1" } ],
                     [ ".", "4xxErrorRate", ".", ".", ".", ".", { "region": "us-east-1" } ],
                     [ ".", "5xxErrorRate", ".", ".", ".", ".", { "region": "us-east-1" } ]
                 ],
@@ -55,11 +55,11 @@
             "properties": {
                 "view": "singleValue",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "metrics": [
-                    [ "AWS/CloudFront", "FunctionInvocations", "FunctionName", "rewrite-request", "Region", "Global", "DistributionId", "cf_distribution_id", { "region": "us-east-1" } ]
+                    [ "AWS/CloudFront", "FunctionInvocations", "FunctionName", "rewrite-request", "Region", "Global", "DistributionId", "${cf_distribution_id}", { "region": "us-east-1" } ]
                 ],
                 "title": "Rewrite Function"
             }
@@ -87,7 +87,7 @@
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "title": "CPU Utilization"
@@ -106,7 +106,7 @@
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "title": "Memory Utilization"
@@ -130,12 +130,12 @@
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "Anomaly Detection", "id": "e1", "region": "eu-central-1" } ],
+                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "Anomaly Detection", "id": "e1", "region": "${aws_region}" } ],
                     [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${rds_aurora_cluster_name}", { "id": "m1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "title": "CPU Utilization"
@@ -154,7 +154,7 @@
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "title": "ACU Utilization"
@@ -172,7 +172,7 @@
                 "metrics": [
                     [ "AWS/RDS", "VolumeBytesUsed", "DBClusterIdentifier", "${rds_aurora_cluster_name}" ]
                 ],
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "title": "Volume Bytes Used"
             }
         },
@@ -188,7 +188,7 @@
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "stat": "Average",
                 "period": 300,
                 "title": "DatabaseConnections"
@@ -206,7 +206,7 @@
                 "metrics": [
                     [ "AWS/ApplicationELB", "HTTP_Redirect_Count", "LoadBalancer", "${alb_fe_arn_suffix}" ]
                 ],
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "title": "HTTP Redirect Count"
             }
         },
@@ -229,7 +229,7 @@
             "properties": {
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "eu-central-1",
+                "region": "${aws_region}",
                 "metrics": [
                     [ "AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", "${alb_fe_arn_suffix}" ]
                 ],
