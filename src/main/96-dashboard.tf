@@ -3,6 +3,7 @@ resource "aws_cloudwatch_dashboard" "main" {
 
   dashboard_body = templatefile("${path.module}/dashboards/main.json",
     {
+      aws_region              = var.aws_region
       cf_distribution_id      = aws_cloudfront_distribution.website.id,
       ecs_cms_service_name    = aws_ecs_service.cms.name,
       rds_aurora_cluster_name = module.aurora_postgresql.cluster_id,
