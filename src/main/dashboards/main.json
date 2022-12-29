@@ -83,7 +83,7 @@
             "properties": {
                 "metrics": [
                     [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "BandAnomalyDetection", "id": "e1" } ],
-                    [ "AWS/ECS", "CPUUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "pn-d-ecs-cluster", { "id": "m1" } ]
+                    [ "AWS/ECS", "CPUUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "${ecs_cluster_name}", { "id": "m1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -102,7 +102,7 @@
             "properties": {
                 "metrics": [
                     [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "BandAnomalyDetection", "id": "e1" } ],
-                    [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "pn-d-ecs-cluster", { "id": "m1" } ]
+                    [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "${ecs_cluster_name}", { "id": "m1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
