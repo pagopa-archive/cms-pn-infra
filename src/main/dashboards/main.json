@@ -1,0 +1,250 @@
+{
+    "widgets": [
+        {
+            "height": 1,
+            "width": 16,
+            "y": 0,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": "## Cloudfront\n"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 1,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/CloudFront", "Requests", "Region", "Global", "DistributionId", "${cf_distribution_id}", { "region": "us-east-1" } ]
+                ],
+                "region": "eu-central-1",
+                "title": "# Requests"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 1,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "metrics": [
+                    [ "AWS/CloudFront", "TotalErrorRate", "Region", "Global", "DistributionId", "cf_distribution_id", { "region": "us-east-1" } ],
+                    [ ".", "4xxErrorRate", ".", ".", ".", ".", { "region": "us-east-1" } ],
+                    [ ".", "5xxErrorRate", ".", ".", ".", ".", { "region": "us-east-1" } ]
+                ],
+                "title": "Error Rate"
+            }
+        },
+        {
+            "height": 6,
+            "width": 4,
+            "y": 1,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "view": "singleValue",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "metrics": [
+                    [ "AWS/CloudFront", "FunctionInvocations", "FunctionName", "rewrite-request", "Region", "Global", "DistributionId", "cf_distribution_id", { "region": "us-east-1" } ]
+                ],
+                "title": "Rewrite Function"
+            }
+        },
+        {
+            "height": 1,
+            "width": 12,
+            "y": 14,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": "## ECS (Fargate) Strapi CMS\n"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 15,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "BandAnomalyDetection", "id": "e1" } ],
+                    [ "AWS/ECS", "CPUUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "pn-d-ecs-cluster", { "id": "m1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "title": "CPU Utilization"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 15,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "BandAnomalyDetection", "id": "e1" } ],
+                    [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${ecs_cms_service_name}", "ClusterName", "pn-d-ecs-cluster", { "id": "m1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "title": "Memory Utilization"
+            }
+        },
+        {
+            "height": 1,
+            "width": 12,
+            "y": 7,
+            "x": 12,
+            "type": "text",
+            "properties": {
+                "markdown": "## Aurora RDS (PostgreSql)\n"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 8,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "Anomaly Detection", "id": "e1", "region": "eu-central-1" } ],
+                    [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${rds_aurora_cluster_name}", { "id": "m1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "title": "CPU Utilization"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 14,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "ANOMALY_DETECTION_BAND(m1, 2)", "label": "AnomalyDetection", "id": "e1" } ],
+                    [ "AWS/RDS", "ACUUtilization", "DBClusterIdentifier", "${rds_aurora_cluster_name}", { "id": "m1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "title": "ACU Utilization"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 14,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/RDS", "VolumeBytesUsed", "DBClusterIdentifier", "${rds_aurora_cluster_name}" ]
+                ],
+                "region": "eu-central-1",
+                "title": "Volume Bytes Used"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 8,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "DatabaseConnections", "DBClusterIdentifier", "${rds_aurora_cluster_name}" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "stat": "Average",
+                "period": 300,
+                "title": "DatabaseConnections"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 8,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/ApplicationELB", "HTTP_Redirect_Count", "LoadBalancer", "${alb_fe_arn_suffix}" ]
+                ],
+                "region": "eu-central-1",
+                "title": "HTTP Redirect Count"
+            }
+        },
+        {
+            "height": 1,
+            "width": 12,
+            "y": 7,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": "## FE Application Loadbalancer \n"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 8,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "eu-central-1",
+                "metrics": [
+                    [ "AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", "${alb_fe_arn_suffix}" ]
+                ],
+                "title": "ActiveConnectionCount"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 0,
+            "x": 16,
+            "type": "text",
+            "properties": {
+                "markdown": "# Userful links\n* [AWS Service status page](https://health.aws.amazon.com/health/status)\n* [Strapi ](https://strapi.io/)\n* [Confluence Space](https://pagopa.atlassian.net/wiki/spaces/FEWEB/pages/563937332/notifichedigitali.pagopa.it)"
+            }
+        }
+    ]
+}
