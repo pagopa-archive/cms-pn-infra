@@ -5,7 +5,7 @@ resource "aws_cloudwatch_dashboard" "main" {
     {
       cf_distribution_id      = aws_cloudfront_distribution.website.id,
       ecs_cms_service_name    = aws_ecs_service.cms.name,
-      rds_aurora_cluster_name = module.aurora_postgresql.name,
+      rds_aurora_cluster_name = module.aurora_postgresql.cluster_database_name,
       alb_fe_arn_suffix       = try(module.alb_fe.alb_fe[0].arn_suffix, null)
     }
   )
