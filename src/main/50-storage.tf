@@ -56,7 +56,7 @@ module "website_bucket" {
   ]
 }
 
-module "previwe_bucket" {
+module "preview_bucket" {
   source                                = "./modules/private_bucket"
   bucket_prefix                         = format("%s-preview", local.project)
   cloudfront_origin_access_identity_arn = aws_cloudfront_origin_access_identity.main.iam_arn
