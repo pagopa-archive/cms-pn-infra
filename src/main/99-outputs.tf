@@ -93,3 +93,7 @@ output "cdn_media_domain_name" {
 output "cdn_website_domain_name" {
   value = aws_cloudfront_distribution.website.domain_name
 }
+
+output "cdn_preview_domain_name" {
+  value = aws_cloudfront_distribution.preview.domain_name
+}
