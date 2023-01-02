@@ -21,6 +21,7 @@
 | <a name="module_alb_fe"></a> [alb\_fe](#module\_alb\_fe) | terraform-aws-modules/alb/aws | 6.0 |
 | <a name="module_aurora_postgresql"></a> [aurora\_postgresql](#module\_aurora\_postgresql) | terraform-aws-modules/rds-aurora/aws | 7.3.0 |
 | <a name="module_dns_zone"></a> [dns\_zone](#module\_dns\_zone) | terraform-aws-modules/route53/aws//modules/zones | ~> 2.0 |
+| <a name="module_preview_bucket"></a> [preview\_bucket](#module\_preview\_bucket) | ./modules/private_bucket |  |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.14.2 |
 | <a name="module_website_bucket"></a> [website\_bucket](#module\_website\_bucket) | ./modules/private_bucket |  |
 
@@ -32,6 +33,7 @@
 | [aws_acm_certificate.website](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
 | [aws_acm_certificate.www](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
 | [aws_cloudfront_distribution.media](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution) | resource |
+| [aws_cloudfront_distribution.preview](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution) | resource |
 | [aws_cloudfront_distribution.website](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution) | resource |
 | [aws_cloudfront_function.rewrite_uri](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_function) | resource |
 | [aws_cloudfront_origin_access_identity.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_origin_access_identity) | resource |
@@ -117,6 +119,7 @@
 |------|-------------|
 | <a name="output_alb_cms_dns_name"></a> [alb\_cms\_dns\_name](#output\_alb\_cms\_dns\_name) | # Alb |
 | <a name="output_cdn_media_domain_name"></a> [cdn\_media\_domain\_name](#output\_cdn\_media\_domain\_name) | # CDN |
+| <a name="output_cdn_preview_domain_name"></a> [cdn\_preview\_domain\_name](#output\_cdn\_preview\_domain\_name) | n/a |
 | <a name="output_cdn_website_domain_name"></a> [cdn\_website\_domain\_name](#output\_cdn\_website\_domain\_name) | n/a |
 | <a name="output_cms_fqdn"></a> [cms\_fqdn](#output\_cms\_fqdn) | n/a |
 | <a name="output_db_cluster_database_name"></a> [db\_cluster\_database\_name](#output\_db\_cluster\_database\_name) | # Database |
