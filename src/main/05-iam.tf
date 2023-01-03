@@ -162,22 +162,31 @@ resource "aws_iam_policy" "publish_s3" {
           "s3:PutObjectAcl",
           "s3:DeleteObject"
         ]
-        Effect   = "Allow"
-        Resource = format("%s/*", module.website_bucket.arn)
+        Effect = "Allow"
+        Resource = [
+          format("%s/*", module.website_bucket.arn),
+          format("%s/*", module.preview_bucket.arn),
+        ]
       },
       {
         Action = [
           "s3:ListBucket"
         ]
-        Effect   = "Allow"
-        Resource = module.website_bucket.arn
+        Effect = "Allow"
+        Resource = [
+          module.website_bucket.arn,
+          module.preview_bucket.arn,
+        ]
       },
       {
         Action = [
           "cloudfront:CreateInvalidation"
         ]
-        Effect   = "Allow"
-        Resource = aws_cloudfront_distribution.website.arn
+        Effect = "Allow"
+        Resource = [
+          aws_cloudfront_distribution.website.arn,
+          aws_cloudfront_distribution.preview.arn,
+        ]
       }
     ]
   })
