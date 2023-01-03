@@ -82,7 +82,11 @@ output "image_s3_bucket" {
 }
 
 output "website_s3_bucket" {
-  value = module.website_bucket
+  value = module.website_bucket.name
+}
+
+output "preview_s3_bucket" {
+  value = module.preview_bucket.name
 }
 
 ## CDN
@@ -90,10 +94,22 @@ output "cdn_media_domain_name" {
   value = aws_cloudfront_distribution.media.domain_name
 }
 
+output "cdn_media_id" {
+  value = aws_cloudfront_distribution.media.id
+}
+
 output "cdn_website_domain_name" {
   value = aws_cloudfront_distribution.website.domain_name
 }
 
+output "cdn_website_id" {
+  value = aws_cloudfront_distribution.website.id
+}
+
 output "cdn_preview_domain_name" {
   value = aws_cloudfront_distribution.preview.domain_name
+}
+
+output "cdn_preview_id" {
+  value = aws_cloudfront_distribution.preview.id
 }
