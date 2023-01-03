@@ -103,7 +103,7 @@ output "cdn_website_domain_name" {
 }
 
 output "cdn_website_domain_id" {
-  value = aws_cloudfront_distribution.website.domain_name
+  value = aws_cloudfront_distribution.website.id
 }
 
 output "cdn_preview_domain_name" {
@@ -111,5 +111,5 @@ output "cdn_preview_domain_name" {
 }
 
 output "cdn_preview_domain_id" {
-  value = aws_cloudfront_distribution.preview.domain_name
+  value = aws_cloudfront_distribution.preview.id
 }
