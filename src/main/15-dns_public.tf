@@ -1,6 +1,5 @@
 # DNS Zone
 module "dns_zone" {
-  count   = var.public_dns_zones == null ? 0 : 1
   source  = "terraform-aws-modules/route53/aws//modules/zones"
   version = "~> 2.0"
 
@@ -8,8 +7,7 @@ module "dns_zone" {
 }
 
 resource "aws_route53_record" "cms" {
-  count   = var.public_dns_zones == null ? 0 : 1
-  zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = "cms"
   type    = "CNAME"
   records = [module.alb_cms.lb_dns_name]
@@ -28,17 +26,20 @@ resource "aws_route53_record" "preview" {
 }
 */
 
-## Public website (apex record.)
+## Public website
 resource "aws_route53_record" "website" {
-  count   = var.public_dns_zones == null ? 0 : 1
-  zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  zone_id = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
   name    = ""
   type    = "A"
-  records = aws_globalaccelerator_accelerator.alb_fe_ga[0].ip_sets[0].ip_addresses
-
-  ttl = var.dns_record_ttl
+  alias {
+    name                   = aws_cloudfront_distribution.website.domain_name
+    zone_id                = "Z2FDTNDATAQYW2"
+    evaluate_target_health = false
+  }
 }
 
+
+/*
 resource "aws_route53_record" "www" {
   count   = var.public_dns_zones == null ? 0 : 1
   zone_id = module.dns_zone[0].route53_zone_zone_id[keys(var.public_dns_zones)[0]]
@@ -53,3 +54,5 @@ resource "aws_route53_record" "www" {
   set_identifier = "live"
   records        = [aws_cloudfront_distribution.website.domain_name]
 }
+
+*/

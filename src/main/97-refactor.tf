@@ -47,19 +47,3 @@ moved {
   from = aws_cloudfront_distribution.alb
   to   = aws_cloudfront_distribution.media
 }
-
-moved {
-  from = aws_acm_certificate.website
-  to   = aws_acm_certificate.website[0]
-}
-
-moved {
-  from = aws_acm_certificate.cms
-  to   = aws_acm_certificate.cms[0]
-}
-
-
-moved {
-  from = module.dns_zone
-  to   = module.dns_zone[0]
-}
