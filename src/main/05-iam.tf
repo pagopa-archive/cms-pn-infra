@@ -254,7 +254,7 @@ resource "aws_iam_policy" "rdsstopstart" {
         ]
         Effect = "Allow"
         Resource = [
-          module.aurora_postgresql.arn
+          module.aurora_postgresql.cluster_arn
         ]
       }
     ]
@@ -263,5 +263,5 @@ resource "aws_iam_policy" "rdsstopstart" {
 
 resource "aws_iam_role_policy_attachment" "lambdastopstartrds" {
   role       = aws_iam_role.lambdastopstartrds.name
-  policy_arn = aws_iam_policy.rdsstopstart.arn
+  policy_arn = aws_iam_policy.rdsstopstart.cluster_arn
 }
