@@ -69,7 +69,7 @@ module "alb_cms" {
       port               = 443
       protocol           = "HTTPS"
       target_group_index = 0
-      certificate_arn    = aws_acm_certificate.cms[0].arn
+      certificate_arn    = aws_acm_certificate.cms.arn
     },
   ]
 
@@ -97,89 +97,4 @@ module "alb_cms" {
   ]
 
   tags = { Name : format("%s-alb", local.project) }
-}
-
-
-module "alb_fe" {
-  count   = var.public_dns_zones != null ? 1 : 0
-  source  = "terraform-aws-modules/alb/aws"
-  version = "6.0"
-
-  name = "fe-alb"
-
-  load_balancer_type = "application"
-
-  security_groups = [aws_security_group.alb.id]
-
-  vpc_id                           = module.vpc.vpc_id
-  subnets                          = module.vpc.public_subnets
-  enable_cross_zone_load_balancing = "true"
-
-  internal = false
-
-  http_tcp_listeners = [{
-    port        = 80
-    protocol    = "HTTP"
-    action_type = "redirect"
-
-
-    redirect = {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    },
-  }, ]
-
-  https_listeners = var.public_dns_zones == null ? [] : [
-    {
-      port            = 443
-      protocol        = "HTTPS"
-      certificate_arn = aws_acm_certificate.website[0].arn
-      action_type     = "redirect"
-      redirect = {
-        host        = format("www.%s", keys(var.public_dns_zones)[0])
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
-
-    },
-  ]
-
-  tags = { Name : "fe-alb" }
-}
-
-# global accellerator
-resource "aws_globalaccelerator_accelerator" "alb_fe_ga" {
-  count           = var.public_dns_zones != null ? 1 : 0
-  name            = format("alb-fe-%s-ga", var.env_short)
-  ip_address_type = "IPV4"
-  enabled         = true
-
-}
-
-resource "aws_globalaccelerator_listener" "alb_fe_ga_listener" {
-  count           = var.public_dns_zones != null ? 1 : 0
-  accelerator_arn = aws_globalaccelerator_accelerator.alb_fe_ga[0].id
-  client_affinity = "SOURCE_IP"
-  protocol        = "TCP"
-
-  port_range {
-    from_port = 443
-    to_port   = 443
-  }
-
-  port_range {
-    from_port = 80
-    to_port   = 80
-  }
-}
-
-resource "aws_globalaccelerator_endpoint_group" "alb_fe_ga_endpoint" {
-  count        = var.public_dns_zones != null ? 1 : 0
-  listener_arn = aws_globalaccelerator_listener.alb_fe_ga_listener[0].id
-
-  endpoint_configuration {
-    endpoint_id = module.alb_fe[0].lb_arn
-    weight      = 100
-  }
 }

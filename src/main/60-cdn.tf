@@ -98,7 +98,7 @@ resource "aws_cloudfront_distribution" "website" {
   comment             = "CloudFront distribution for the static website."
   default_root_object = "index.html"
 
-  aliases = var.public_dns_zones == null ? [] : [format("www.%s", keys(var.public_dns_zones)[0]), ]
+  aliases = var.public_dns_zones == null ? [] : [keys(var.public_dns_zones)[0], ]
 
   default_cache_behavior {
     # HTTPS requests we permit the distribution to serve
@@ -134,8 +134,8 @@ resource "aws_cloudfront_distribution" "website" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = var.public_dns_zones != null ? false : true
-    acm_certificate_arn            = var.public_dns_zones != null ? aws_acm_certificate.www[0].arn : null
+    cloudfront_default_certificate = false
+    acm_certificate_arn            = aws_acm_certificate.website.arn
     ssl_support_method             = "sni-only"
   }
 }

@@ -37,7 +37,7 @@ output "preview_fqdn" {
 */
 
 output "cms_fqdn" {
-  value = try(aws_route53_record.cms[0].fqdn, null)
+  value = try(aws_route53_record.cms.fqdn, null)
 }
 
 ## Database
