@@ -56,4 +56,27 @@ module "aurora_postgresql" {
   instances = {
     one = {}
   }
+
+  tags = {
+    AutoShutDown = true
+  }
+}
+
+
+## Lambda function that stop and start rds:
+
+module "lambda_function" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "4.7.1"
+
+  function_name = "StopRds"
+  description   = "My awesome lambda function"
+  handler       = "index.lambda_handler"
+  runtime       = "python3.8"
+
+  source_path = "../src/lambda-function1"
+
+  tags = {
+    Name = "StopRds"
+  }
 }
