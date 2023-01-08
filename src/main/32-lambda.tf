@@ -29,11 +29,11 @@ module "lambda_function" {
   version = "4.7.1"
 
   function_name = "StopRds"
-  description   = "My awesome lambda function"
+  description   = "Lambda function to stop Rds."
   handler       = "index.lambda_handler"
   runtime       = "python3.8"
 
-  source_path = "../src/lambda"
+  source_path = "../lambda/stop_rds"
 
   tags = {
     Name = "StopRds"
