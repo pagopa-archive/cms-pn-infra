@@ -65,6 +65,16 @@ variable "dns_record_ttl" {
   default     = 86400 # 24 hours
 }
 
+variable "pn_dns_records" {
+  type = list(object({
+    name  = string
+    value = string
+    type  = string
+  }))
+  default     = []
+  description = "DNS record existing in PN prod account."
+}
+
 variable "create_cert_validation_records" {
   type        = bool
   description = "Create dns certification validation records."

@@ -56,3 +56,12 @@ resource "aws_route53_record" "www" {
 }
 
 */
+
+resource "aws_route53_record" "pn" {
+  for_each = { for r in var.pn_dns_records : r.name => r }
+  zone_id  = module.dns_zone.route53_zone_zone_id[keys(var.public_dns_zones)[0]]
+  name     = each.key
+  type     = each.value.type
+  records  = [each.value.value]
+  ttl      = var.dns_record_ttl
+}

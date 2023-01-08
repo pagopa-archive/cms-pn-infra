@@ -15,6 +15,21 @@ public_dns_zones = {
   }
 }
 
+
+pn_dns_records = [
+  {
+    name  = "_8a1175b1ab47d8bf7c3224ccc1394c03"
+    value = "_95894bfe02d574080589d54595887a8f.dhzvlrndnj.acm-validations.aws"
+    type  = "CNAME"
+  },
+  {
+    name  = "testdns"
+    value = "Test TXT Record for DNS zone notifichedigitali.pagopa.it"
+    type  = "TXT"
+  },
+]
+
+
 create_cert_validation_records = false
 
 # Ref: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/132810155/Azure+-+Naming+Tagging+Convention#Tagging
