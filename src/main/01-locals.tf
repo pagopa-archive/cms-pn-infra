@@ -18,6 +18,6 @@ locals {
   cname_cms     = "cms"
   cname_preview = "preview"
 
-  fe_github_repository = format("https://github.com/%", var.fe_github_repository)
+  fe_github_repository = format("https://github.com/%s", var.fe_github_repository)
 
 }
