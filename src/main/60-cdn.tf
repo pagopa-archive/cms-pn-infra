@@ -197,7 +197,7 @@ resource "aws_cloudfront_distribution" "preview" {
   viewer_certificate {
     cloudfront_default_certificate = true
     # acm_certificate_arn            = var.public_dns_zones != null ? aws_acm_certificate.www[0].arn : null
-    ssl_support_method = "sni-only"
+    # ssl_support_method = "sni-only"
   }
 
 }
