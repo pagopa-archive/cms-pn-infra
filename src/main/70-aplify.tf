@@ -59,3 +59,14 @@ resource "aws_amplify_app" "fe" {
     "_CUSTOM_IMAGE" = "node:16",
   }
 }
+
+resource "aws_amplify_branch" "fe" {
+  app_id      = aws_amplify_app.example.id
+  branch_name = "main"
+}
+
+resource "aws_amplify_webhook" "main" {
+  app_id      = aws_amplify_app.fe.id
+  branch_name = aws_amplify_branch.fe.branch_name
+  description = "Trigger Main"
+}
