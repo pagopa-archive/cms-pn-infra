@@ -116,5 +116,5 @@ output "cdn_preview_id" {
 
 ## Amplify
 output "fe_aplify_webhook_url" {
-  value = aws_amplify_webhook.main.url
+  value = aws_amplify_webhook.live.url
 }

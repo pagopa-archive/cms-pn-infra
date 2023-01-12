@@ -60,13 +60,13 @@ resource "aws_amplify_app" "fe" {
   }
 }
 
-resource "aws_amplify_branch" "fe" {
-  app_id      = aws_amplify_app.example.id
+resource "aws_amplify_branch" "live" {
+  app_id      = aws_amplify_app.fe.id
   branch_name = "main"
 }
 
-resource "aws_amplify_webhook" "main" {
+resource "aws_amplify_webhook" "live" {
   app_id      = aws_amplify_app.fe.id
-  branch_name = aws_amplify_branch.fe.branch_name
-  description = "Trigger Main"
+  branch_name = aws_amplify_branch.live.branch_name
+  description = "Live FE"
 }
