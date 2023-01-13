@@ -54,9 +54,9 @@ resource "aws_amplify_app" "fe" {
 
 
   environment_variables = {
-    STRAPI_TOKEN    = jsondecode(data.aws_secretsmanager_secret_version.strapi.secret_string)["STRAPI_TOKEN"]
-    STRAPI_API_URL  = format("https://%s", aws_route53_record.cms.fqdn)
-    "_CUSTOM_IMAGE" = "node:16",
+    STRAPI_TOKEN      = jsondecode(data.aws_secretsmanager_secret_version.strapi.secret_string)["STRAPI_TOKEN"]
+    STRAPI_API_URL    = format("https://%s", aws_route53_record.cms.fqdn)
+    "VERSION_NODE_16" = 16
   }
 }
 
@@ -69,4 +69,12 @@ resource "aws_amplify_webhook" "live" {
   app_id      = aws_amplify_app.fe.id
   branch_name = aws_amplify_branch.live.branch_name
   description = "Live FE"
+}
+
+resource "aws_amplify_backend_environment" "example" {
+  app_id           = aws_amplify_app.example.id
+  environment_name = "example"
+
+  deployment_artifacts = "app-example-deployment"
+  stack_name           = "amplify-app-example"
 }
