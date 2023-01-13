@@ -35,6 +35,14 @@ module "lambda_function" {
 
   source_path = "../lambda/stop_rds"
 
+
+  environment_variables = {
+    KEY    = "AutoShutDown"
+    REGION = var.aws_region
+    VALUE  = true
+  }
+
+
   tags = {
     Name = "StopRds"
   }
