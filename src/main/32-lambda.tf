@@ -22,18 +22,35 @@ function handler(event) {
 EOF
 }
 
+locals {
+  lambda_rst_stop_sart = [
+    {
+      name        = "StartRds"
+      source_path = "../lambda/start_rds"
+      description = "Lambda function to start Rds."
+    },
+    {
+      name        = "StopRds"
+      source_path = "../lambda/stop_rds"
+      description = "Lambda function to stop Rds."
+    },
+  ]
+}
 
 ## Lambda function that stop and start rds:
 module "lambda_function" {
+  for_each = { for l in local.lambda_rst_stop_sart : l.name => l }
+
   source  = "terraform-aws-modules/lambda/aws"
   version = "4.7.1"
 
-  function_name = "StopRds"
-  description   = "Lambda function to stop Rds."
+  function_name = each.key
+  description   = each.value.description
   handler       = "index.lambda_handler"
   runtime       = "python3.8"
+  publish       = true
 
-  source_path = "../lambda/stop_rds"
+  source_path = each.value.source_path
 
 
   environment_variables = {
@@ -42,8 +59,85 @@ module "lambda_function" {
     VALUE  = true
   }
 
-
   tags = {
     Name = "StopRds"
+  }
+
+  attach_policy_json = true
+  policy_json = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "rds:DescribeDBClusterParameters",
+          "rds:StartDBCluster",
+          "rds:StopDBCluster",
+          "rds:DescribeDBEngineVersions",
+          "rds:DescribeGlobalClusters",
+          "rds:DescribePendingMaintenanceActions",
+          "rds:DescribeDBLogFiles",
+          "rds:StopDBInstance",
+          "rds:StartDBInstance",
+          "rds:DescribeReservedDBInstancesOfferings",
+          "rds:DescribeReservedDBInstances",
+          "rds:ListTagsForResource",
+          "rds:DescribeValidDBInstanceModifications",
+          "rds:DescribeDBInstances",
+          "rds:DescribeSourceRegions",
+          "rds:DescribeDBClusterEndpoints",
+          "rds:DescribeDBClusters",
+          "rds:DescribeDBClusterParameterGroups",
+          "rds:DescribeOptionGroups"
+        ]
+        Effect   = "Allow"
+        Resource = ["*"]
+      }
+    ]
+  })
+
+  allowed_triggers = {
+    ScanAmiRule = {
+      principal  = "events.amazonaws.com"
+      source_arn = module.eventbridge.eventbridge_rule_arns[each.key]
+    }
+  }
+
+}
+
+
+module "eventbridge" {
+  source  = "terraform-aws-modules/eventbridge/aws"
+  version = "1.17.1"
+
+  create_bus = false
+
+  rules = {
+    StopRds = {
+      description         = "Trigger lambda stop RDS"
+      schedule_expression = var.db_stop_schedule_expression
+    }
+
+    StartRds = {
+      description         = "Trigger lambda start RDS"
+      schedule_expression = var.db_start_schedule_expression
+    }
+  }
+
+  targets = {
+    StartRds = [
+      {
+        name  = local.lambda_rst_stop_sart[0].name
+        arn   = module.lambda_function[local.lambda_rst_stop_sart[1].name].lambda_function_arn
+        input = jsonencode({ "job" : "cron-by-rate" })
+      }
+    ]
+
+    StopRds = [
+      {
+        name  = local.lambda_rst_stop_sart[1].name
+        arn   = module.lambda_function[local.lambda_rst_stop_sart[0].name].lambda_function_arn
+        input = jsonencode({ "job" : "cron-by-rate" })
+      }
+    ]
   }
 }

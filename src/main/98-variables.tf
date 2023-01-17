@@ -133,7 +133,19 @@ variable "db_backup_retention_period" {
 variable "db_preferred_backup_window" {
   type        = string
   description = "The daily time range during which automated backups are created."
-  default     = "07:00-09:00"
+  default     = "08:00-10:00"
+}
+
+variable "db_start_schedule_expression" {
+  type        = string
+  description = "When the rds db aurora should start."
+  default     = "cron(0 8 ? * MON-FRI *)" # UTC
+}
+
+variable "db_stop_schedule_expression" {
+  type        = string
+  description = "When the rds db aurora should start."
+  default     = "cron(0 19 ? * MON-FRI *)" # UTC
 }
 
 variable "tags" {

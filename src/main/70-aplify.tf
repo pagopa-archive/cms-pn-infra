@@ -41,7 +41,9 @@ resource "aws_amplify_app" "fe" {
           - '**/*'
       cache:
         paths:
-          - node_modules/**/*
+          - src/app/node_modules/**/*
+          - src/app/.cache
+          - src/app/public
   EOT
   # The default rewrites and redirects added by the Amplify Console.
   /*
@@ -71,6 +73,7 @@ resource "aws_amplify_webhook" "live" {
   description = "Live FE"
 }
 
+/*
 resource "aws_amplify_backend_environment" "example" {
   app_id           = aws_amplify_app.example.id
   environment_name = "example"
@@ -78,3 +81,5 @@ resource "aws_amplify_backend_environment" "example" {
   deployment_artifacts = "app-example-deployment"
   stack_name           = "amplify-app-example"
 }
+
+*/
