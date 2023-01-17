@@ -64,36 +64,7 @@ module "lambda_function" {
   }
 
   attach_policy_json = true
-  policy_json = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "rds:DescribeDBClusterParameters",
-          "rds:StartDBCluster",
-          "rds:StopDBCluster",
-          "rds:DescribeDBEngineVersions",
-          "rds:DescribeGlobalClusters",
-          "rds:DescribePendingMaintenanceActions",
-          "rds:DescribeDBLogFiles",
-          "rds:StopDBInstance",
-          "rds:StartDBInstance",
-          "rds:DescribeReservedDBInstancesOfferings",
-          "rds:DescribeReservedDBInstances",
-          "rds:ListTagsForResource",
-          "rds:DescribeValidDBInstanceModifications",
-          "rds:DescribeDBInstances",
-          "rds:DescribeSourceRegions",
-          "rds:DescribeDBClusterEndpoints",
-          "rds:DescribeDBClusters",
-          "rds:DescribeDBClusterParameterGroups",
-          "rds:DescribeOptionGroups"
-        ]
-        Effect   = "Allow"
-        Resource = ["*"]
-      }
-    ]
-  })
+  policy             = aws_iam_policy.rdsstopstart.arn
 
   allowed_triggers = {
     ScanAmiRule = {
@@ -101,7 +72,6 @@ module "lambda_function" {
       source_arn = module.eventbridge.eventbridge_rule_arns[each.key]
     }
   }
-
 }
 
 
