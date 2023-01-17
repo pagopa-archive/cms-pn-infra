@@ -113,3 +113,8 @@ output "cdn_preview_domain_name" {
 output "cdn_preview_id" {
   value = aws_cloudfront_distribution.preview.id
 }
+
+## Amplify
+output "fe_aplify_webhook_url" {
+  value = aws_amplify_webhook.live.url
+}

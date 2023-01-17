@@ -252,10 +252,8 @@ resource "aws_iam_policy" "rdsstopstart" {
           "rds:DescribeDBClusterParameterGroups",
           "rds:DescribeOptionGroups"
         ]
-        Effect = "Allow"
-        Resource = [
-          module.aurora_postgresql.cluster_arn
-        ]
+        Effect   = "Allow"
+        Resource = ["*"]
       }
     ]
   })
