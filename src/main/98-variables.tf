@@ -133,7 +133,7 @@ variable "db_backup_retention_period" {
 variable "db_preferred_backup_window" {
   type        = string
   description = "The daily time range during which automated backups are created."
-  default     = "08:00-10:00"
+  default     = "17:00-19:00"
 }
 
 variable "db_start_schedule_expression" {
