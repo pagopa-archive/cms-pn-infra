@@ -1,6 +1,6 @@
 data "aws_rds_engine_version" "postgresql" {
   engine  = "aurora-postgresql"
-  version = "14.4.5"
+  version = "14.4"
 }
 
 resource "aws_db_parameter_group" "postgresql14" {

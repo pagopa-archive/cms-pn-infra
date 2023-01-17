@@ -63,8 +63,8 @@ module "lambda_function" {
     Name = "StopRds"
   }
 
-  attach_policy_json = true
-  policy             = aws_iam_policy.rdsstopstart.arn
+  attach_policy = true
+  policy        = aws_iam_policy.rdsstopstart.arn
 
   allowed_triggers = {
     ScanAmiRule = {
