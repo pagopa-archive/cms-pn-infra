@@ -148,6 +148,13 @@ variable "db_stop_schedule_expression" {
   default     = "cron(0 19 ? * MON-FRI *)" # UTC
 }
 
+## CDN 
+variable "cloudfront_default_certificate" {
+  type        = bool
+  description = "Use cloudfront certificate instead of customer managed certificate."
+  default     = false
+}
+
 variable "tags" {
   type = map(any)
   default = {
