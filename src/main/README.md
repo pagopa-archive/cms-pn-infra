@@ -105,6 +105,7 @@
 | <a name="input_db_backup_retention_period"></a> [db\_backup\_retention\_period](#input\_db\_backup\_retention\_period) | The days to retain backups for. Default 7 | `number` | `7` | no |
 | <a name="input_db_preferred_backup_window"></a> [db\_preferred\_backup\_window](#input\_db\_preferred\_backup\_window) | The daily time range during which automated backups are created. | `string` | `"17:00-19:00"` | no |
 | <a name="input_db_start_schedule_expression"></a> [db\_start\_schedule\_expression](#input\_db\_start\_schedule\_expression) | When the rds db aurora should start. | `string` | `"cron(0 8 ? * MON-FRI *)"` | no |
+| <a name="input_db_stop_enable"></a> [db\_stop\_enable](#input\_db\_stop\_enable) | Enable rds aurora shutdown. | `bool` | `false` | no |
 | <a name="input_db_stop_schedule_expression"></a> [db\_stop\_schedule\_expression](#input\_db\_stop\_schedule\_expression) | When the rds db aurora should start. | `string` | `"cron(0 19 ? * MON-FRI *)"` | no |
 | <a name="input_dns_record_ttl"></a> [dns\_record\_ttl](#input\_dns\_record\_ttl) | Dns record ttl (in sec) | `number` | `86400` | no |
 | <a name="input_ecs_cms_image"></a> [ecs\_cms\_image](#input\_ecs\_cms\_image) | cms docker image | `string` | `"ghcr.io/pagopa/cms-pn-backend"` | no |

@@ -76,6 +76,7 @@ module "lambda_function" {
 
 
 module "eventbridge" {
+  count   = var.db_stop_enable ? 1 : 0
   source  = "terraform-aws-modules/eventbridge/aws"
   version = "1.17.1"
 
