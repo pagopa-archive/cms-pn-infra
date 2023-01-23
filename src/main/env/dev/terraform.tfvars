@@ -21,6 +21,7 @@ ecs_cms_image_version      = "latest"
 
 # Rds Aurora.
 db_backup_retention_period = 3
+db_stop_enable             = true
 
 # Ref: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/132810155/Azure+-+Naming+Tagging+Convention#Tagging
 tags = {

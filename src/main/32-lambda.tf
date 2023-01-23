@@ -23,7 +23,7 @@ EOF
 }
 
 locals {
-  lambda_rst_stop_sart = [
+  lambda_rst_stop_sart = var.db_stop_enable ? [
     {
       name        = "StartRds"
       source_path = "../lambda/start_rds"
@@ -34,7 +34,7 @@ locals {
       source_path = "../lambda/stop_rds"
       description = "Lambda function to stop Rds."
     },
-  ]
+  ] : []
 }
 
 ## Lambda function that stop and start rds:
@@ -48,7 +48,7 @@ module "lambda_function" {
   description   = each.value.description
   handler       = "index.lambda_handler"
   runtime       = "python3.8"
-  publish       = true
+  publish       = false
 
   source_path = each.value.source_path
 
@@ -69,13 +69,14 @@ module "lambda_function" {
   allowed_triggers = {
     ScanAmiRule = {
       principal  = "events.amazonaws.com"
-      source_arn = module.eventbridge.eventbridge_rule_arns[each.key]
+      source_arn = module.eventbridge[0].eventbridge_rule_arns[each.key]
     }
   }
 }
 
 
 module "eventbridge" {
+  count   = var.db_stop_enable ? 1 : 0
   source  = "terraform-aws-modules/eventbridge/aws"
   version = "1.17.1"
 

@@ -136,6 +136,12 @@ variable "db_preferred_backup_window" {
   default     = "17:00-19:00"
 }
 
+variable "db_stop_enable" {
+  type        = bool
+  description = "Enable rds aurora shutdown."
+  default     = false
+}
+
 variable "db_start_schedule_expression" {
   type        = string
   description = "When the rds db aurora should start."

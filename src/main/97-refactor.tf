@@ -47,3 +47,8 @@ moved {
   from = aws_cloudfront_distribution.alb
   to   = aws_cloudfront_distribution.media
 }
+
+moved {
+  from = module.eventbridge
+  to   = module.eventbridge[0]
+}
