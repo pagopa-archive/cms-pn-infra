@@ -69,7 +69,7 @@ module "lambda_function" {
   allowed_triggers = {
     ScanAmiRule = {
       principal  = "events.amazonaws.com"
-      source_arn = module.eventbridge.eventbridge_rule_arns[each.key]
+      source_arn = module.eventbridge[0].eventbridge_rule_arns[each.key]
     }
   }
 }
