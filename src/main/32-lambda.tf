@@ -23,7 +23,7 @@ EOF
 }
 
 locals {
-  lambda_rst_stop_sart = [
+  lambda_rst_stop_sart = var.db_stop_enable ? [
     {
       name        = "StartRds"
       source_path = "../lambda/start_rds"
@@ -34,7 +34,7 @@ locals {
       source_path = "../lambda/stop_rds"
       description = "Lambda function to stop Rds."
     },
-  ]
+  ] : []
 }
 
 ## Lambda function that stop and start rds:
