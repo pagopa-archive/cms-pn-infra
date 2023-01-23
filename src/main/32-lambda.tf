@@ -48,7 +48,7 @@ module "lambda_function" {
   description   = each.value.description
   handler       = "index.lambda_handler"
   runtime       = "python3.8"
-  publish       = true
+  publish       = false
 
   source_path = each.value.source_path
 
